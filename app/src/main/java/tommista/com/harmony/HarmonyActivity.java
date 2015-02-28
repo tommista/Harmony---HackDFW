@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import tommista.com.harmony.spotify.SpotifyAuthenticator;
+
 
 public class HarmonyActivity extends ActionBarActivity {
 
@@ -14,9 +16,7 @@ public class HarmonyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_harmony);
-
-        //SpotifyAuthenticator.authenticate(this, SPOTIFY_REQUEST_CODE);
+        setContentView(R.layout.playlist_view);
     }
 
     @Override
