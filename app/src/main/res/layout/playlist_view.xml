@@ -18,35 +18,52 @@
         
         </ListView>
 
-    <tommista.com.harmony.ui.VCRView
-        android:id="@+id/playlist_vcr"
+    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="7"
-        android:weightSum="3">
+        android:weightSum="4">
 
-        <Button
-            android:id="@+id/rewind_button"
+        <tommista.com.harmony.ui.VCRView
+            android:id="@+id/playlist_vcr"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/vcr_button"/>
+            android:weightSum="3">
 
-        <Button
-            android:id="@+id/play_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/vcr_button"/>
+            <Button
+                android:id="@+id/rewind_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/vcr_button"/>
 
-        <Button
-            android:id="@+id/forward_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/vcr_button"/>
+            <Button
+                android:id="@+id/play_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/vcr_button"/>
+
+            <Button
+                android:id="@+id/forward_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/vcr_button"/>
 
         </tommista.com.harmony.ui.VCRView>
+
+        <Button
+            android:id="@+id/goto_track_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"/>
+
+        </LinearLayout>
+
+
 
 </tommista.com.harmony.ui.PlaylistView>
