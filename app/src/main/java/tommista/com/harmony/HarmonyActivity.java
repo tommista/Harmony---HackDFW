@@ -14,7 +14,7 @@ public class HarmonyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_harmony);
+        setContentView(R.layout.playlist_view);
     }
 
     @Override
