@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import timber.log.Timber;
 import tommista.com.harmony.R;
 
 /**
@@ -27,6 +28,8 @@ public class VCRView extends LinearLayout{
     @Override
     protected void onFinishInflate(){
         super.onFinishInflate();
+
+        Timber.i("vcr inflated");
 
         rewindButton = (Button) this.findViewById(R.id.rewind_button);
         playButton = (Button) this.findViewById(R.id.play_button);
