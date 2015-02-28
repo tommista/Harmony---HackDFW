@@ -3,13 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="4">
 
     <ListView
         android:id="@+id/playlist_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="3">
         
         </ListView>
+
+    <tommista.com.harmony.ui.VCRView
+        android:id="@+id/playlist_vcr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        </tommista.com.harmony.ui.VCRView>
 
 </tommista.com.harmony.ui.PlaylistView>
