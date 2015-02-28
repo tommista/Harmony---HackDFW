@@ -43,7 +43,7 @@ public class PlaylistManager {
 
         String json = gson.toJson(trackList);
 
-        prefs.edit().putString("jsonData", json);
+        prefs.edit().putString("jsonData", json).apply();
 
     }
 
