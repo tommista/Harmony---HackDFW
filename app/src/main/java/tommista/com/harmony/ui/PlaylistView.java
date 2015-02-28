@@ -7,12 +7,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
 import tommista.com.harmony.adapter.PlaylistAdapter;
-import tommista.com.harmony.models.Track;
+import tommista.com.harmony.managers.PlaylistManager;
 
 /**
  * Created by tbrown on 2/28/15.
@@ -44,11 +42,8 @@ public class PlaylistView  extends LinearLayout{
             }
         });
 
-        ArrayList<Track> list = new ArrayList<>();
-        list.add(new Track("test", "asdf"));
-        list.add(new Track("asdf", "qwer"));
 
-        playlistAdapter = new PlaylistAdapter(context, list);
+        playlistAdapter = new PlaylistAdapter(context, PlaylistManager.getInstance().trackList);
 
         listView.setAdapter(playlistAdapter);
 
