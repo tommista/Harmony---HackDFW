@@ -21,14 +21,14 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
         mMediaPlayer.setOnPreparedListener(this);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try{
-            mMediaPlayer.setDataSource("https://api.soundcloud.com/tracks/7399237/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a");
+            mMediaPlayer.setDataSource("rberidon.com/test.mp3");
             Log.i("URLLLL", "should have set url");
-
+            //https://api.soundcloud.com/tracks/7399237/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a
             //"http://api.soundcloud.com/tracks/7399237/stream?client_id=XXX"
-            mMediaPlayer.prepare();
+
         }catch (IllegalArgumentException e){
             e.printStackTrace();
-            Log.i("playing", "illegalargument exception");
+            Log.i("playing", "illegal argument exception");
 
 
         } catch (IOException e) {
@@ -36,6 +36,13 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
             Log.i("playing", "ioexception");
 
 
+        }
+        try {
+            mMediaPlayer.prepare();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
