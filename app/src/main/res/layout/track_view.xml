@@ -30,7 +30,6 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:weightSum="7"
         android:background="@android:color/holo_red_dark">
 
