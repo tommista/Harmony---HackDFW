@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import timber.log.Timber;
 import tommista.com.harmony.R;
+import tommista.com.harmony.TrackPlayer;
 
 /**
  * Created by tbrown on 2/28/15.
@@ -20,9 +21,12 @@ public class VCRView extends LinearLayout{
     private Button playButton;
     private Button forwardButton;
 
+    private TrackPlayer trackPlayer;
+
     public VCRView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        trackPlayer = TrackPlayer.getInstance();
     }
 
     @Override
@@ -38,21 +42,21 @@ public class VCRView extends LinearLayout{
         rewindButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                trackPlayer.previousTrack();
             }
         });
 
         playButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                trackPlayer.playPauseTrack();
             }
         });
 
         forwardButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                trackPlayer.nextTrack();
             }
         });
     }
