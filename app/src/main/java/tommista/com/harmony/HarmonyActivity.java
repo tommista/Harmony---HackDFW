@@ -1,7 +1,11 @@
 package tommista.com.harmony;
 
-import android.support.v7.app.ActionBarActivity;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,6 +16,29 @@ public class HarmonyActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_harmony);
+        try {
+            Uri uri = Uri.parse("http://soundcloud.com/misterwives/reflections-reflections-ep");
+            //http://api.soundcloud.com/tracks/7399237/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a
+            MediaPlayer mediaPlayer = MediaPlayer.create(this.getApplicationContext(), uri);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            Log.i("Before","This is before the try catch");
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+            Log.i("Play","App should be playing music");
+            Log.i("Error","Could not get the url");
+            Log.i("After","This is after the try catch");
+        }
+        catch(Exception ex){
+
+        }
+
+
+
+
+
+
+
+
     }
 
 
@@ -19,6 +46,7 @@ public class HarmonyActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_harmony, menu);
+
         return true;
     }
 
