@@ -1,22 +1,38 @@
 package tommista.com.harmony;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import tommista.com.harmony.spotify.SpotifyAuthenticator;
+import timber.log.Timber;
 
 
 public class HarmonyActivity extends ActionBarActivity {
 
     private static final int SPOTIFY_REQUEST_CODE = 1337;
 
+    public static Activity instance;
+
+    public static Activity getInstance(){
+        return instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        } else {
+            // TODO eventually put remote logging into a tree and put here.
+        }
+
         setContentView(R.layout.playlist_view);
+
+        instance = this;
     }
 
     @Override
@@ -47,4 +63,11 @@ public class HarmonyActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed(){
+        Timber.i("back button pressed");
+        setContentView(R.layout.playlist_view);
+    }
+
 }
