@@ -1,10 +1,14 @@
 package tommista.com.harmony;
 
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.media.MediaPlayer;
+import de.voidplus.soundcloud.*;
+import tommista.com.harmony.SoundcloudPlayer;
 
 public class HarmonyActivity extends ActionBarActivity {
 
@@ -12,6 +16,11 @@ public class HarmonyActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_harmony);
+
+//        SoundcloudPlayer scPlayer;
+//        scPlayer = new SoundcloudPlayer(this, 138094472);
+//        scPlayer.start();
+
     }
 
 
