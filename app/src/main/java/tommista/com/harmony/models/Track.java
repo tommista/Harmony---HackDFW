@@ -5,6 +5,11 @@ package tommista.com.harmony.models;
  */
 public class Track {
 
+    public Track(String title, String artist){
+        this.title = title;
+        this.artist = artist;
+    }
+
     public String title;
     public String artist;
 
