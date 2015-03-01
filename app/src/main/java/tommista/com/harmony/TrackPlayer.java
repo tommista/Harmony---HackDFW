@@ -24,7 +24,12 @@ public class TrackPlayer {
     }
 
     public Track getCurrentTrack(){
-        return playlistManager.trackList.get(0);
+        //return playlistManager.trackList.get(0);
+        if(playlistManager.trackList.size() == 0){
+            return new Track("Empty", "Empty");
+        }else{
+            return playlistManager.trackList.get(0);
+        }
     }
 
     public void playPauseTrack(){
