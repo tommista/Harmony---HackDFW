@@ -1,5 +1,7 @@
 package tommista.com.harmony;
 
+import android.media.MediaPlayer;
+
 import timber.log.Timber;
 import tommista.com.harmony.managers.PlaylistManager;
 import tommista.com.harmony.models.Track;
@@ -70,7 +72,14 @@ public class TrackPlayer {
             });
         }else{
             Timber.i("Playing soundcloud track %s at position %d", track.title, index);
-            soundcloudPlayer = new SoundcloudPlayer(track.trackId.toString());
+            soundcloudPlayer = new SoundcloudPlayer(track.trackId.toString(), new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    isPlaying = false;
+                    playingIndex++;
+                    playTrack(playingIndex);
+                }
+            });
         }
 
         isPlaying = true;

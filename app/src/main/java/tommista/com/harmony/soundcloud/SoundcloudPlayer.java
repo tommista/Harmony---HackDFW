@@ -14,7 +14,7 @@ public class SoundcloudPlayer {
 
     private MediaPlayer mediaPlayer;
 
-    public SoundcloudPlayer(String streamUri){
+    public SoundcloudPlayer(String streamUri, MediaPlayer.OnCompletionListener callback){
 
         streamUri += "/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a";
 
@@ -25,6 +25,7 @@ public class SoundcloudPlayer {
         try{
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(streamUri);
+            mediaPlayer.setOnCompletionListener(callback);
             mediaPlayer.prepare();
             mediaPlayer.start();
         }catch(IOException e){
