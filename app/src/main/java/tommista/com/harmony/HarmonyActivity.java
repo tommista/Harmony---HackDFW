@@ -15,12 +15,14 @@ public class HarmonyActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_harmony);
+
+        //SpotifyAuthenticator.authenticate(this, SPOTIFY_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == SPOTIFY_REQUEST_CODE) {
-
+            SpotifyAuthenticator.handleResponse(this, resultCode, intent);
         }
     }
 
