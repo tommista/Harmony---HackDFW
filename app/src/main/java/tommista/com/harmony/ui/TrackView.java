@@ -1,7 +1,11 @@
 package tommista.com.harmony.ui;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,12 +39,16 @@ public class TrackView extends LinearLayout{
     protected void onFinishInflate(){
         super.onFinishInflate();
 
+
         songTextView = (TextView) this.findViewById(R.id.song_name);
         artistTextView = (TextView) this.findViewById(R.id.artist_name);
         vcrView = (VCRView) this.findViewById(R.id.track_vcr);
         imageView = (ImageView) this.findViewById(R.id.image_view);
 
         songTextView.setText(trackPlayer.getCurrentTrack().title);
+        songTextView.setSelected(true);
+        songTextView.requestFocus();
+
         artistTextView.setText(trackPlayer.getCurrentTrack().artist);
 
         Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(imageView, new Callback() {
@@ -55,5 +63,9 @@ public class TrackView extends LinearLayout{
             }
         });
 
+    }
+
+    public TextView getSongTextView() {
+        return songTextView;
     }
 }
