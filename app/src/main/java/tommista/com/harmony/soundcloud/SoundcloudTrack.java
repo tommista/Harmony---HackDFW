@@ -1,9 +1,6 @@
-package tommista.com.harmony;
+package tommista.com.harmony.soundcloud;
 
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.*;
-import retrofit.http.GET;
-import retrofit.http.Query;
 
 /**
  * Created by kyle on 2/28/2015.

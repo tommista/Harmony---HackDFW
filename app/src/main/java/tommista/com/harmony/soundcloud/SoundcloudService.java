@@ -1,9 +1,7 @@
-package tommista.com.harmony;
+package tommista.com.harmony.soundcloud;
 import retrofit.Callback;
-import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Query;
-import retrofit.http.Path;
 
 /**
  * Created by kyle on 2/28/2015.

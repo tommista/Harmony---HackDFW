@@ -85,22 +85,13 @@
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="gson-2.3.1" level="project" />
-    <orderEntry type="library" exported="" name="httpcore-4.0.1" level="project" />
-    <orderEntry type="library" exported="" name="timber-2.5.0" level="project" />
-    <orderEntry type="library" exported="" name="commons-codec-1.3" level="project" />
-    <orderEntry type="library" exported="" name="commons-logging-1.1.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="picasso-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="spotifysdk-1.0.0-beta8" level="project" />
-    <orderEntry type="library" exported="" name="httpmime-4.0" level="project" />
-    <orderEntry type="library" exported="" name="httpclient-4.0" level="project" />
-    <orderEntry type="library" exported="" name="signpost-core-1.2.1.2" level="project" />
+    <orderEntry type="library" exported="" name="timber-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="apache-mime4j-0.6" level="project" />
-    <orderEntry type="library" exported="" name="signpost-commonshttp4-1.2.1.1" level="project" />
-    <orderEntry type="library" exported="" name="org.urbanstew.soundcloudapi-0.9.3" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="retrofit-1.9.0" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="spotifysdk-1.0.0-beta8" level="project" />
   </component>
 </module>
 

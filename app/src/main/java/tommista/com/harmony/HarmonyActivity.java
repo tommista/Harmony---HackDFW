@@ -23,10 +23,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 
 import timber.log.Timber;
+import tommista.com.harmony.soundcloud.SoundcloudTrack;
 
 
 public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.OnPreparedListener {
@@ -65,15 +65,6 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
         //mMediaPlayer.start();
         Log.i("playing", "should be playing the song");
     }
-
-
-
-
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

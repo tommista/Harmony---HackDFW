@@ -1,4 +1,4 @@
-package tommista.com.harmony;
+package tommista.com.harmony.soundcloud;
 
 import android.util.Log;
 
@@ -6,7 +6,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.*;
 
 import retrofit.RestAdapter;
-import tommista.com.harmony.SoundcloudService;
+import tommista.com.harmony.soundcloud.SoundcloudService;
 
 /**
  * Created by kyle on 2/28/2015.
