@@ -11,6 +11,7 @@ public class SoundcloudTrack {
         this.songName = soundcloudTrack.songName;
         this.uri = soundcloudTrack.uri;
         this.artworkUrl = soundcloudTrack.artworkUrl;
+        this.streamable = soundcloudTrack.streamable;
         this.artist.artistName = soundcloudTrack.artist.artistName;
     }
 
@@ -19,6 +20,9 @@ public class SoundcloudTrack {
 
     @SerializedName("title")
     public String songName;
+
+    @SerializedName("streamable")
+    public boolean streamable;
 
     @SerializedName("uri")
     public String uri;

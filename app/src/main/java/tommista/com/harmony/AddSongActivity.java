@@ -366,6 +366,11 @@ public class AddSongActivity extends Activity {
 
             //sou = new SoundcloudPlayer(result.uri.toString());
 
+            if(!result.streamable){
+                Toast.makeText(getBaseContext(), "Song Not Streamable", Toast.LENGTH_LONG).show();
+                finish();
+            }
+
             PlaylistManager.getInstance().addTrack(new Track(result));
 
             Log.d(":)", "Success");

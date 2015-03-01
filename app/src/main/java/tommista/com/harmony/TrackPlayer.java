@@ -80,6 +80,8 @@ public class TrackPlayer {
     public void playPauseTrack(){
         Track track = playlistManager.trackList.get(playingIndex);
 
+        Timber.i("playPauseTrack begin isPlaying: " + isPlaying);
+
         if(track.isSpotifyTrack){
             if(isPlaying){
                 isPlaying = false;
@@ -95,6 +97,7 @@ public class TrackPlayer {
             }
         }else{
             if(isPlaying){
+                isPlaying = false;
                 soundcloudPlayer.pause();
             } else{
                 if(soundcloudPlayer != null){
@@ -106,9 +109,12 @@ public class TrackPlayer {
                 }
             }
         }
+
+        Timber.i("playPauseTrack end isPlaying: " + isPlaying);
     }
 
     public void previousTrack(){
+        PlaylistManager.getInstance().trackList.clear();
         PlaylistManager.getInstance().serializeList();
     }
 
