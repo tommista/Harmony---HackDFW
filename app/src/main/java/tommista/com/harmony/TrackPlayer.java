@@ -115,7 +115,7 @@ public class TrackPlayer {
     public void playPauseTrack(){
         if (playingIndex >= playlistManager.trackList.size())
             playingIndex = playlistManager.trackList.size() - 1;
-        
+
         Track track = playlistManager.trackList.get(playingIndex);
 
         Timber.i("playPauseTrack begin isPlaying: " + isPlaying);
