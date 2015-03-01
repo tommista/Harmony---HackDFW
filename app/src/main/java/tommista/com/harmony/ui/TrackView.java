@@ -1,13 +1,26 @@
 package tommista.com.harmony.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import timber.log.Timber;
 import tommista.com.harmony.R;
@@ -23,6 +36,7 @@ public class TrackView extends LinearLayout{
     private TextView artistTextView;
     private VCRView vcrView;
     private ImageView imageView;
+    private ImageView imageBackground;
     private TrackPlayer trackPlayer;
 
     public TrackView(Context context, AttributeSet attrs) {
@@ -41,18 +55,57 @@ public class TrackView extends LinearLayout{
         vcrView = (VCRView) this.findViewById(R.id.track_vcr);
         imageView = (ImageView) this.findViewById(R.id.image_view);
 
-        songTextView.setText(trackPlayer.getCurrentTrack().title);
-        artistTextView.setText(trackPlayer.getCurrentTrack().artist);
+        imageBackground = (ImageView)findViewById(R.id.image_background);
 
-        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(imageView, new Callback() {
+        songTextView.setText(trackPlayer.getCurrentTrack().title);
+        songTextView.setHorizontallyScrolling(true);
+        songTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        songTextView.setFocusableInTouchMode(true);
+        songTextView.setFreezesText(true);
+        songTextView.setSingleLine(true);
+        songTextView.setMarqueeRepeatLimit(-1);
+        songTextView.setFocusable(true);
+        songTextView.setSelected(true);
+
+        artistTextView.setText(trackPlayer.getCurrentTrack().artist);
+        artistTextView.setHorizontallyScrolling(true);
+        artistTextView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        artistTextView.setFocusableInTouchMode(true);
+        artistTextView.setFreezesText(true);
+        artistTextView.setSingleLine(true);
+        artistTextView.setMarqueeRepeatLimit(-1);
+        artistTextView.setFocusable(true);
+        artistTextView.setSelected(true);
+
+        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(new Target() {
+
             @Override
-            public void onSuccess() {
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 Timber.i("Picasso success");
+                imageView.setImageBitmap(bitmap);
+
+                Bitmap blur = bitmap.copy(bitmap.getConfig(), true);
+
+                final RenderScript rs = RenderScript.create(context);
+                final Allocation input = Allocation.createFromBitmap(rs, blur, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+                final Allocation output = Allocation.createTyped(rs, input.getType());
+                final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+                script.setRadius(25.f /* e.g. 3.f */);
+                script.setInput(input);
+                script.forEach(output);
+                output.copyTo(blur);
+
+                imageBackground.setImageBitmap(blur);
             }
 
             @Override
-            public void onError() {
+            public void onBitmapFailed(Drawable errorDrawable) {
                 Timber.i("Picasso failure :(");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
             }
         });
 
