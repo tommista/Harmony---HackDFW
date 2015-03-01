@@ -72,7 +72,11 @@ public class TrackPlayer {
             if(isPlaying){
                 spotifyPlayer.pause();
             } else{
-                spotifyPlayer.resume();
+                if(spotifyPlayer != null){
+                    spotifyPlayer.resume();
+                }else{
+                    playTrack(playingIndex);
+                }
             }
             isPlaying = !isPlaying;
         }else{

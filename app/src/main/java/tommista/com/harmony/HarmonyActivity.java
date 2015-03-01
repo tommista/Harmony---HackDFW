@@ -57,4 +57,6 @@ public class HarmonyActivity extends Activity {
         setContentView(R.layout.playlist_view);
     }
 
+    
+
 }
