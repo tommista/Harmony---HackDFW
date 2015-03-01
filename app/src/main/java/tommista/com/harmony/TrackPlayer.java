@@ -62,7 +62,15 @@ public class TrackPlayer {
             playPauseTrack();
         }
 
-        if(index >= playlistManager.trackList.size() || index < 0){
+        if(index >= playlistManager.trackList.size()){
+
+            if(isRepeat){
+                index = 0;
+            }else{
+                index--;
+                return;
+            }
+        } else if(index < 0){
             index = 0;
         }
 
