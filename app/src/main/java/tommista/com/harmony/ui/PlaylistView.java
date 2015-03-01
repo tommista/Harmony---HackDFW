@@ -1,13 +1,18 @@
 package tommista.com.harmony.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import timber.log.Timber;
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
 import tommista.com.harmony.adapter.PlaylistAdapter;
@@ -26,7 +31,26 @@ public class PlaylistView  extends LinearLayout{
     public PlaylistView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        LocalBroadcastManager.getInstance(context).registerReceiver(newTrackReceiver,new IntentFilter("newTrackIntent"));
     }
+
+    private BroadcastReceiver newTrackReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            /*HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    playlistAdapter.notifyDataSetChanged();
+                }
+            });*/
+
+            HarmonyActivity.getInstance().setContentView(R.layout.playlist_view);
+
+            Timber.i("newTrackReceiver");
+
+        }
+    };
 
     @Override
     protected void onFinishInflate(){

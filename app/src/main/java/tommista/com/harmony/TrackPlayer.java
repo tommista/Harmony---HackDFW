@@ -1,6 +1,9 @@
 package tommista.com.harmony;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import timber.log.Timber;
 import tommista.com.harmony.managers.PlaylistManager;
@@ -56,7 +59,7 @@ public class TrackPlayer {
 
         playingIndex = index;
 
-        HarmonyActivity.getInstance().setContentView(R.layout.track_view);
+        //HarmonyActivity.getInstance().setContentView(R.layout.track_view);
 
         Track track = playlistManager.trackList.get(playingIndex);
 
@@ -83,6 +86,8 @@ public class TrackPlayer {
         }
 
         isPlaying = true;
+
+        sendNextTrackMessage();
 
     }
 
@@ -123,7 +128,6 @@ public class TrackPlayer {
     }
 
     public void previousTrack(){
-        PlaylistManager.getInstance().trackList.clear();
         PlaylistManager.getInstance().serializeList();
     }
 
@@ -137,6 +141,12 @@ public class TrackPlayer {
 
         playTrack(playingIndex);
 
+    }
+
+    private void sendNextTrackMessage() {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("nextTrackIntent");
+        LocalBroadcastManager.getInstance(HarmonyActivity.getInstance()).sendBroadcast(intent);
     }
 
 }
