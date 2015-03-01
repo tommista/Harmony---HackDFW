@@ -25,6 +25,8 @@ public class TrackPlayer {
     private SoundcloudPlayer soundcloudPlayer;
     private int playingIndex;
     private boolean isPlaying;
+    public boolean isShuffle;
+    public boolean isRepeat;
 
     public static TrackPlayer getInstance(){
         if(instance == null){
@@ -37,6 +39,8 @@ public class TrackPlayer {
         playlistManager = PlaylistManager.getInstance();
         playingIndex = 0;
         isPlaying = false;
+        isShuffle = false;
+        isRepeat = false;
     }
 
     public Track getCurrentTrack(){
@@ -171,4 +175,11 @@ public class TrackPlayer {
         return isPlaying;
     }
 
+    public void setShuffle(boolean isShuffle){
+        this.isShuffle = isShuffle;
+    }
+
+    public void setRepeat(boolean isRepeat){
+        this.isRepeat = isRepeat;
+    }
 }

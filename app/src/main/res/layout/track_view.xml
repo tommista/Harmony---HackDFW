@@ -34,16 +34,41 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"/>
 
-    <TextView
-        android:id="@+id/artist_name"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:textSize="18dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
+        android:weightSum="5"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/shuffle_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="18dp"
+            android:layout_weight="3"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/repeat_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+        </LinearLayout>
 
 
     <tommista.com.harmony.ui.VCRView
