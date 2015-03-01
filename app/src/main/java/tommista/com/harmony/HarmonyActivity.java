@@ -1,19 +1,10 @@
 package tommista.com.harmony;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
-import java.util.ArrayList;
-
-import timber.log.Timber;
-import tommista.com.harmony.spotify.SpotifyAuthenticator;
-import tommista.com.harmony.spotify.SpotifyPlayer;
 
 
 public class HarmonyActivity extends ActionBarActivity {
