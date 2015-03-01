@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:weightSum="3.5"
     android:paddingTop="5dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    android:background="@drawable/track_selector"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
 
     <TextView
         android:id="@+id/track_name"

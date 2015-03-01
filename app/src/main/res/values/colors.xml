@@ -5,6 +5,8 @@
     <color name="blueGray">#EDEDEF</color>
     <color name="darkBlue">#59708e</color>
     <color name="orange">#F29319</color>
+    <color name="green">#BAEBAE</color>
+    <color name="gray">#CCCCCC</color>
 
     <!-- Specific piece colors !-->
     <color name="textViewStroke">#DDDDDD</color>
