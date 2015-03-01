@@ -5,4 +5,14 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="shared_prefs_name">tommista.com.harmony</string>
+    <string name="shared_prefs_no_key">NO_KEY</string>
+
+    <!-- SPOTIFY CONSTANTS -->
+
+    <string name="spotify_client_id">03b2d9e9e6144d46b050c00444b06854</string>
+    <string name="spotify_secret">921f515ac4914885be282ffac2b1ab76</string>
+    <string name="spotify_redirect_uri">harmony://spotify/callback</string>
+    <string name="spotify_token_key">spotify_token_key</string>
+
 </resources>
