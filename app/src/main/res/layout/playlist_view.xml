@@ -4,11 +4,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10"
+    android:weightSum="8"
     android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:background="@color/blueGray">
 
     <ListView
         android:id="@+id/playlist_list_view"
@@ -31,21 +32,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="3">
+            android:weightSum="3"
+            android:layout_marginRight="10dp">
 
             <Button
                 android:id="@+id/rewind_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/vcr_button"/>
+                android:background="@drawable/vcr_button"
+                android:layout_marginRight="10dp"/>
 
             <Button
                 android:id="@+id/play_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/vcr_button"/>
+                android:background="@drawable/vcr_button"
+                android:layout_marginRight="10dp"/>
 
             <Button
                 android:id="@+id/forward_button"
@@ -60,7 +64,8 @@
             android:id="@+id/goto_track_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"/>
+            android:layout_weight="3"
+            android:background="@drawable/goto_track_button"/>
 
         </LinearLayout>
 

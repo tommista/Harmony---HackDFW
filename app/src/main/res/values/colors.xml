@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Generic Colors !-->
+    <color name="blueGray">#EDEDEF</color>
+    <color name="darkBlue">#59708e</color>
+    <color name="orange">#F29319</color>
+
+    <!-- Specific piece colors !-->
+    <color name="textViewStroke">#DDDDDD</color>
+    <color name="addButtonStroke">#999999</color>
+</resources>
