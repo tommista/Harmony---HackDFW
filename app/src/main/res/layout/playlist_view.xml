@@ -43,36 +43,45 @@
             android:weightSum="3"
             android:layout_marginRight="10dp">
 
-            <Button
+            <TextView
                 android:id="@+id/rewind_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="32dp"
                 android:background="@drawable/vcr_button"
                 android:layout_marginRight="10dp"/>
 
-            <Button
+            <TextView
                 android:id="@+id/play_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="32dp"
                 android:background="@drawable/vcr_button"
                 android:layout_marginRight="10dp"/>
 
-            <Button
+            <TextView
                 android:id="@+id/forward_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="32dp"
                 android:background="@drawable/vcr_button"/>
 
         </tommista.com.harmony.ui.VCRView>
 
-        <Button
+
+        <TextView
             android:id="@+id/goto_track_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="32dp"
             android:background="@drawable/goto_track_button"/>
 
         </LinearLayout>

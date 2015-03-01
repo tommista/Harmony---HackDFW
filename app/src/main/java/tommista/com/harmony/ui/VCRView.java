@@ -1,10 +1,11 @@
 package tommista.com.harmony.ui;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import timber.log.Timber;
 import tommista.com.harmony.R;
@@ -17,9 +18,9 @@ public class VCRView extends LinearLayout{
 
     private Context context;
 
-    private Button rewindButton;
-    private Button playButton;
-    private Button forwardButton;
+    private TextView rewindButton;
+    private TextView playButton;
+    private TextView forwardButton;
 
     private TrackPlayer trackPlayer;
 
@@ -35,9 +36,19 @@ public class VCRView extends LinearLayout{
 
         Timber.i("vcr inflated");
 
-        rewindButton = (Button) this.findViewById(R.id.rewind_button);
-        playButton = (Button) this.findViewById(R.id.play_button);
-        forwardButton = (Button) this.findViewById(R.id.forward_button);
+        rewindButton = (TextView) this.findViewById(R.id.rewind_button);
+        playButton = (TextView) this.findViewById(R.id.play_button);
+        forwardButton = (TextView) this.findViewById(R.id.forward_button);
+
+        Typeface font = Typeface.createFromAsset(context.getAssets(), "icomoon.ttf");
+        rewindButton.setTypeface(font);
+        playButton.setTypeface(font);
+        forwardButton.setTypeface(font);
+
+        rewindButton.setText("\ue600");
+        playButton.setText("\ue603");
+        forwardButton.setText("\ue601");
+
 
         rewindButton.setOnClickListener(new OnClickListener() {
             @Override

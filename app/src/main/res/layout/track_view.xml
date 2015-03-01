@@ -57,26 +57,32 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
 
-        <Button
+        <TextView
             android:id="@+id/rewind_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="32dp"
             android:background="@drawable/vcr_button"
             android:layout_marginRight="10dp"/>
 
-        <Button
+        <TextView
             android:id="@+id/play_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="32dp"
             android:background="@drawable/vcr_button"/>
 
-        <Button
+        <TextView
             android:id="@+id/forward_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="32dp"
             android:background="@drawable/vcr_button"
             android:layout_marginLeft="10dp"/>
 

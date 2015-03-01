@@ -1,11 +1,12 @@
 package tommista.com.harmony.ui;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
@@ -20,7 +21,7 @@ public class PlaylistView  extends LinearLayout{
     private Context context;
     private PlaylistAdapter playlistAdapter;
     private VCRView vcr;
-    private Button gotoTrackButton;
+    private TextView gotoTrackButton;
 
     public PlaylistView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -33,7 +34,11 @@ public class PlaylistView  extends LinearLayout{
 
         final ListView listView = (ListView) this.findViewById(R.id.playlist_list_view);
         vcr = (VCRView) this.findViewById(R.id.playlist_vcr);
-        gotoTrackButton = (Button) this.findViewById(R.id.goto_track_button);
+        gotoTrackButton = (TextView) this.findViewById(R.id.goto_track_button);
+
+        Typeface font = Typeface.createFromAsset(context.getAssets(), "icomoon.ttf");
+        gotoTrackButton.setTypeface(font);
+        gotoTrackButton.setText("\ue608");
 
         gotoTrackButton.setOnClickListener(new OnClickListener() {
             @Override
