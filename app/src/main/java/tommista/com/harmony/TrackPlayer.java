@@ -56,8 +56,6 @@ public class TrackPlayer {
 
         Track track = playlistManager.trackList.get(playingIndex);
 
-        Timber.i("wtf " + track.isSpotifyTrack);
-
         if(track.isSpotifyTrack){
             Timber.i("Playing spotify track %s at position %d", track.title, index);
             spotifyPlayer = new SpotifyPlayer(HarmonyActivity.getInstance(), track.trackId, new EndTrackCallback() {
@@ -68,10 +66,11 @@ public class TrackPlayer {
                     playTrack(playingIndex);
                 }
             });
-            isPlaying = true;
         }else{
 
         }
+
+        isPlaying = true;
 
     }
 
@@ -80,15 +79,17 @@ public class TrackPlayer {
 
         if(track.isSpotifyTrack){
             if(isPlaying){
+                isPlaying = false;
                 spotifyPlayer.pause();
             } else{
                 if(spotifyPlayer != null){
+                    isPlaying = true;
                     spotifyPlayer.resume();
                 }else{
+                    isPlaying = false;
                     playTrack(playingIndex);
                 }
             }
-            isPlaying = !isPlaying;
         }else{
 
         }
