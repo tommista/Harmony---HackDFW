@@ -14,6 +14,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
+import tommista.com.harmony.spotify.SpotifyAuthenticator;
 import tommista.com.harmony.spotify.models.Track;
 import tommista.com.harmony.spotify.webapi.SpotifyApi;
 import tommista.com.harmony.spotify.webapi.SpotifyService;
@@ -23,13 +24,22 @@ import tommista.com.harmony.spotify.webapi.SpotifyService;
  */
 public class AddSongActivity extends Activity {
 
+    private static final int SPOTIFY_REQUEST_CODE = 1337;
+    private String authToken;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_song_layout);
 
         Timber.plant(new Timber.DebugTree());
 
-        parseIntent();
+        authToken = getAuthToken();
+        if(authToken != null) {
+            parseIntent();
+        }
+        else {
+            SpotifyAuthenticator.authenticate(this, SPOTIFY_REQUEST_CODE);
+        }
     }
 
     private void parseIntent() {
@@ -85,18 +95,19 @@ public class AddSongActivity extends Activity {
         }
     }
 
-    //For use in parseIntent() when getSpotifyID() returns a track ID
-    private void getSpotifyTrack(String trackID) {
-
+    private String getAuthToken() {
         //get authToken from shared prefs
         String prefsName = getResources().getString(R.string.shared_prefs_name);
         SharedPreferences preferences = getSharedPreferences(prefsName, Context.MODE_PRIVATE);
 
         String authKey = getResources().getString(R.string.spotify_token_key);
-        String defValue = getResources().getString(R.string.shared_prefs_def_string);
+        final String defValue = getResources().getString(R.string.shared_prefs_def_string);
 
-        String authToken = preferences.getString(authKey, defValue);
+        return preferences.getString(authKey, defValue);
+    }
 
+    //For use in parseIntent() when getSpotifyID() returns a track ID
+    private void getSpotifyTrack(String trackID) {
 
         //connect to spotify to retrieve track data
 
@@ -115,8 +126,29 @@ public class AddSongActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
-                Timber.i(error.toString());
-                dataFailure();
+
+                String logMessage;
+
+                switch (error.getResponse().getStatus()) {
+                    case 400:
+                        logMessage = "Bad Request";
+                        break;
+                    case 401:
+                        logMessage = "Authentication Failed";
+                        break;
+                    case 403:
+                        logMessage = "Forbidden";
+                        break;
+                    case 404:
+                        logMessage = "Not Found";
+                        break;
+
+                    default:
+                        logMessage = "Other Error";
+                }
+
+                Timber.i(logMessage);
+                dataFailure(error.getResponse().getStatus());
             }
         });
     }
@@ -135,13 +167,31 @@ public class AddSongActivity extends Activity {
         });
     }
 
-    private void dataFailure() {
+    private void dataFailure(final int responseCode) {
+
+        final Activity context = this;
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getBaseContext(), "Song Could Not Be Added", Toast.LENGTH_SHORT).show();
-                finish();
+                if(responseCode == 401) {
+                    Toast.makeText(getBaseContext(), "Song Could Not Be Added, Please Log In Again", Toast.LENGTH_SHORT).show();
+                    SpotifyAuthenticator.authenticate(context, SPOTIFY_REQUEST_CODE);
+                }
+                else {
+                    Toast.makeText(getBaseContext(), "Song Could Not Be Added", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == SPOTIFY_REQUEST_CODE) {
+            Toast.makeText(getBaseContext(), "Try Adding the Song Again", Toast.LENGTH_SHORT).show();
+            SpotifyAuthenticator.handleResponse(this, resultCode, intent);
+            finish();
+
+        }
     }
 }
