@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="10"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="20dp"
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     android:layout_marginBottom="20dp"
@@ -23,8 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/holo_blue_light"
-        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:textSize="32dp"/>
 
@@ -33,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/holo_green_dark"
+        android:textSize="18dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"/>
 
@@ -59,15 +57,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/vcr_button"
-            android:layout_marginRight="10dp"/>
+            android:background="@drawable/vcr_button"/>
 
         <Button
             android:id="@+id/forward_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/vcr_button"/>
+            android:background="@drawable/vcr_button"
+            android:layout_marginLeft="10dp"/>
 
     </tommista.com.harmony.ui.VCRView>
 
