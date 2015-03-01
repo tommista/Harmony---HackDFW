@@ -15,10 +15,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -38,6 +40,8 @@ import tommista.com.harmony.TrackPlayer;
 public class TrackView extends LinearLayout{
 
     private final BackgroundTarget target = new BackgroundTarget();
+    public static TrackView instance;
+
     private Context context;
     private TextView songTextView;
     private TextView artistTextView;
@@ -45,9 +49,12 @@ public class TrackView extends LinearLayout{
     private ImageView imageView;
     private ImageView imageBackground;
     private TrackPlayer trackPlayer;
+    private TextView shuffleButton;
+    private TextView repeatButton;
 
     public TrackView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        instance = this;
         this.context = context;
         trackPlayer = TrackPlayer.getInstance();
 
@@ -67,10 +74,47 @@ public class TrackView extends LinearLayout{
                     imageView = (ImageView) findViewById(R.id.image_view);
                     imageBackground = (ImageView) findViewById(R.id.image_background);
 
+                    Typeface font = Typeface.createFromAsset(HarmonyActivity.getInstance().getAssets(), "icomoon.ttf");
+                    shuffleButton.setTypeface(font);
+                    repeatButton.setTypeface(font);
+
+                    shuffleButton.setText("\ue60a");
+                    repeatButton.setText("\ue605");
+
+                    shuffleButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            trackPlayer.setShuffle(!trackPlayer.isShuffle);
+                            adjustShuffle();
+                        }
+                    });
+
+                    repeatButton.setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            trackPlayer.setRepeat(!trackPlayer.isRepeat);
+                            adjustRepeat();
+                        }
+                    });
+
                     songTextView.setText(trackPlayer.getCurrentTrack().title);
                     artistTextView.setText(trackPlayer.getCurrentTrack().artist);
 
                     Picasso.with(HarmonyActivity.getInstance()).load(trackPlayer.getCurrentTrack().imageURL).into(target);
+                    adjustRepeat();
+                    adjustShuffle();
+
+                    Picasso.with(HarmonyActivity.getInstance()).load(trackPlayer.getCurrentTrack().imageURL).into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Timber.i("Picasso success");
+                        }
+
+                        @Override
+                        public void onError() {
+                            Timber.i("Picasso failure :(");
+                        }
+                    });
 
                 }
             });
@@ -87,6 +131,31 @@ public class TrackView extends LinearLayout{
         artistTextView = (TextView) this.findViewById(R.id.artist_name);
         vcrView = (VCRView) this.findViewById(R.id.track_vcr);
         imageView = (ImageView) this.findViewById(R.id.image_view);
+        shuffleButton = (TextView) this.findViewById(R.id.shuffle_button);
+        repeatButton = (TextView) this.findViewById(R.id.repeat_button);
+
+        Typeface font = Typeface.createFromAsset(HarmonyActivity.getInstance().getAssets(), "icomoon.ttf");
+        shuffleButton.setTypeface(font);
+        repeatButton.setTypeface(font);
+
+        shuffleButton.setText("\ue60a");
+        repeatButton.setText("\ue605");
+
+        shuffleButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trackPlayer.setShuffle(!trackPlayer.isShuffle);
+                adjustShuffle();
+            }
+        });
+
+        repeatButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trackPlayer.setRepeat(!trackPlayer.isRepeat);
+                adjustRepeat();
+            }
+        });
 
         imageBackground = (ImageView)findViewById(R.id.image_background);
 
@@ -111,6 +180,9 @@ public class TrackView extends LinearLayout{
         artistTextView.setSelected(true);
 
         Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(target);
+
+        adjustShuffle();
+        adjustRepeat();
 
     }
 
@@ -144,5 +216,33 @@ public class TrackView extends LinearLayout{
         public void onPrepareLoad(Drawable placeHolderDrawable) {
 
         }
+    }
+
+    public void adjustShuffle(){
+
+        HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(trackPlayer.isShuffle){
+                    shuffleButton.setTextColor(context.getResources().getColor(R.color.orange));
+                }else{
+                    shuffleButton.setTextColor(context.getResources().getColor(R.color.gray));
+                }
+            }
+        });
+    }
+
+    public void adjustRepeat(){
+
+        HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(trackPlayer.isRepeat){
+                    repeatButton.setTextColor(context.getResources().getColor(R.color.orange));
+                }else{
+                    repeatButton.setTextColor(context.getResources().getColor(R.color.gray));
+                }
+            }
+        });
     }
 }
