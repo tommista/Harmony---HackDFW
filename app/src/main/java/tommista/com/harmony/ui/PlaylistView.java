@@ -126,7 +126,7 @@ public class PlaylistView  extends FrameLayout{
 
         Typeface font = Typeface.createFromAsset(context.getAssets(), "icomoon.ttf");
         gotoTrackButton.setTypeface(font);
-        gotoTrackButton.setText("\ue608");
+        gotoTrackButton.setText("\ue60d");
 
         if(HarmonyActivity.getInstance().bitmap != null){
             imageView.setImageBitmap(HarmonyActivity.getInstance().bitmap);

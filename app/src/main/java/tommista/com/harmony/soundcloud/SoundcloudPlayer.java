@@ -2,10 +2,12 @@ package tommista.com.harmony.soundcloud;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import java.io.IOException;
 
 import timber.log.Timber;
+import tommista.com.harmony.HarmonyActivity;
 
 /**
  * Created by tbrown on 3/1/15.
@@ -23,11 +25,19 @@ public class SoundcloudPlayer {
         mediaPlayer = new MediaPlayer();
 
         try{
+
+            Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+
+            Toast.makeText(HarmonyActivity.getInstance(), "Please Wait", Toast.LENGTH_SHORT).show();
+
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(streamUri);
             mediaPlayer.setOnCompletionListener(callback);
+            Timber.i("@@@@ Pre prepare");
             mediaPlayer.prepare();
+            Timber.i("@@@@ Mid");
             mediaPlayer.start();
+            Timber.i("@@@@ Post Start");
         }catch(IOException e){
             e.printStackTrace();
         }

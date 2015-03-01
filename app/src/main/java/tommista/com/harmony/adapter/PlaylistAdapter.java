@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import timber.log.Timber;
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
 import tommista.com.harmony.TrackPlayer;
@@ -26,21 +25,16 @@ public class PlaylistAdapter extends ArrayAdapter<Track> {
 
     public PlaylistAdapter(Context context, ArrayList<Track> tracks) {
         super(context, R.layout.playlist_track , tracks);
-        Timber.i("asdf " + tracks.size());
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final Track track = getItem(position);
 
-        Timber.i("Track: %s Artist: %s", track.title, track.artist);
-
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.playlist_track, null);
         }
-
-        Timber.i("convert view is null: " + (convertView == null));
 
         View trackItem = (View) convertView.findViewById(R.id.track_item);
         TextView songName = (TextView) convertView.findViewById(R.id.track_name);
@@ -91,8 +85,6 @@ public class PlaylistAdapter extends ArrayAdapter<Track> {
                 return true;
             }
         });
-
-        Timber.i("Track: %s Artist: %s", track.title, track.artist);
 
         songName.setText(track.title);
         artistName.setText(track.artist);

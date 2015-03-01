@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -63,54 +62,12 @@ public class TrackView extends LinearLayout{
             HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    songTextView = (TextView) findViewById(R.id.song_name);
-                    artistTextView = (TextView) findViewById(R.id.artist_name);
-                    vcrView = (VCRView) findViewById(R.id.track_vcr);
-                    imageView = (ImageView) findViewById(R.id.image_view);
-                    imageBackground = (ImageView) findViewById(R.id.image_background);
-
-                    Typeface font = Typeface.createFromAsset(HarmonyActivity.getInstance().getAssets(), "icomoon.ttf");
-                    shuffleButton.setTypeface(font);
-                    repeatButton.setTypeface(font);
-
-                    shuffleButton.setText("\ue60a");
-                    repeatButton.setText("\ue605");
-
-                    shuffleButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            trackPlayer.setShuffle(!trackPlayer.isShuffle);
-                            adjustShuffle();
-                        }
-                    });
-
-                    repeatButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            trackPlayer.setRepeat(!trackPlayer.isRepeat);
-                            adjustRepeat();
-                        }
-                    });
-
                     songTextView.setText(trackPlayer.getCurrentTrack().title);
                     artistTextView.setText(trackPlayer.getCurrentTrack().artist);
 
                     Picasso.with(HarmonyActivity.getInstance()).load(trackPlayer.getCurrentTrack().imageURL).into(target);
                     adjustRepeat();
                     adjustShuffle();
-
-                    Picasso.with(HarmonyActivity.getInstance()).load(trackPlayer.getCurrentTrack().imageURL).into(imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            Timber.i("Picasso success");
-                        }
-
-                        @Override
-                        public void onError() {
-                            Timber.i("Picasso failure :(");
-                        }
-                    });
-
                 }
             });
 
@@ -120,7 +77,6 @@ public class TrackView extends LinearLayout{
     @Override
     protected void onFinishInflate(){
         super.onFinishInflate();
-
 
         songTextView = (TextView) this.findViewById(R.id.song_name);
         artistTextView = (TextView) this.findViewById(R.id.artist_name);
