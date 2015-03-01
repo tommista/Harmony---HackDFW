@@ -40,4 +40,9 @@ public class SoundcloudTrack {
     @SerializedName("duration")
     public long durationMillis;
 
+    @Override
+    public String toString() {
+        return this.artist.artistName;
+    }
+
 }

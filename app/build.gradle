@@ -3,7 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/DEPENDENCIES'
+       // exclude 'META-INF/NOTICE.txt'
+    }
     defaultConfig {
         applicationId "tommista.com.harmony"
         minSdkVersion 16
@@ -30,9 +35,11 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs/org.urbanstew.soundcloudapi-0.9.3', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.jakewharton.timber:timber:2.5.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile 'com.spotify.sdk:spotifysdk:1.0.0-beta8@aar'
+
 }
