@@ -21,7 +21,7 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
         mMediaPlayer.setOnPreparedListener(this);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try{
-            mMediaPlayer.setDataSource("http://rberidon.com/test.mp3");
+            mMediaPlayer.setDataSource("http://api.soundcloud.com/tracks/7399237/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a");
             Log.i("URLLLL", "should have set url");
             //https://api.soundcloud.com/tracks/7399237/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a
             //"http://api.soundcloud.com/tracks/7399237/stream?client_id=XXX"
