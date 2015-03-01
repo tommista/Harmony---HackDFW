@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import java.io.IOException;
 
 
@@ -46,10 +45,14 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
             e.printStackTrace();
         }
 
+        String shareURL = "Long Way Down - SoundCloud Listen to Long Way Down by Robert DeLong #np on #SoundCloud http://soundcloud.com/robertdelong/long-way-down";
+        String url = shareURL.substring(shareURL.indexOf("http"),shareURL.length());
+        Log.i("substring",url);
+
 
         }
     public void onPrepared(MediaPlayer mediaPlayer){
-        mMediaPlayer.start();
+        //mMediaPlayer.start();
         Log.i("playing", "should be playing the song");
     }
 
