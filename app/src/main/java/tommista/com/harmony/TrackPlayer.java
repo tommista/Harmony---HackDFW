@@ -45,6 +45,10 @@ public class TrackPlayer {
             playPauseTrack();
         }
 
+        if(index >= playlistManager.trackList.size()){
+            index = 0;
+        }
+
         playingIndex = index;
 
         Track track = playlistManager.trackList.get(playingIndex);
@@ -86,7 +90,9 @@ public class TrackPlayer {
             playPauseTrack();
         }
 
+        playingIndex++;
 
+        playTrack(playingIndex);
 
     }
 
