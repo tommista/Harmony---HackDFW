@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 
 import java.io.IOException;
 
+import timber.log.Timber;
+
 /**
  * Created by tbrown on 3/1/15.
  */
@@ -15,6 +17,8 @@ public class SoundcloudPlayer {
     public SoundcloudPlayer(String streamUri){
 
         streamUri += "/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a";
+
+        Timber.i("SoundcloudPlayer: " + streamUri);
 
         mediaPlayer = new MediaPlayer();
 
@@ -40,6 +44,15 @@ public class SoundcloudPlayer {
         if(!mediaPlayer.isPlaying()){
             mediaPlayer.start();
         }
+    }
+
+    public boolean isPlaying(){
+        if(mediaPlayer != null){
+            return mediaPlayer.isPlaying();
+        } else{
+            return false;
+        }
+
     }
 
 }

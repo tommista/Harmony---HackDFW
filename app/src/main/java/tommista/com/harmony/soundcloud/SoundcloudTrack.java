@@ -27,12 +27,7 @@ public class SoundcloudTrack {
     public String artworkUrl;
 
     @SerializedName("user")
-    public Artist artist;
-
-    private class Artist {
-        @SerializedName("username")
-        public String artistName;
-    }
+    public SoundcloudArtist artist;
 
     @SerializedName("duration")
     public long durationMillis;

@@ -1,5 +1,6 @@
 package tommista.com.harmony.models;
 
+import tommista.com.harmony.soundcloud.SoundcloudTrack;
 import tommista.com.harmony.spotify.models.SpotifyTrack;
 
 /**
@@ -20,6 +21,14 @@ public class Track {
         this.imageURL = spotifyTrack.album.images.get(0).url;
         this.trackId = spotifyTrack.id;
         this.isSpotifyTrack = true;
+    }
+
+    public Track(SoundcloudTrack soundcloudTrack){
+        this.title = soundcloudTrack.songName;
+        this.artist = soundcloudTrack.artist.artistName;
+        this.imageURL = soundcloudTrack.artworkUrl;
+        this.trackId = soundcloudTrack.uri;
+        this.isSpotifyTrack = false;
     }
 
     public String trackId;

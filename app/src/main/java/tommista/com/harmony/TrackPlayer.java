@@ -3,6 +3,7 @@ package tommista.com.harmony;
 import timber.log.Timber;
 import tommista.com.harmony.managers.PlaylistManager;
 import tommista.com.harmony.models.Track;
+import tommista.com.harmony.soundcloud.SoundcloudPlayer;
 import tommista.com.harmony.spotify.EndTrackCallback;
 import tommista.com.harmony.spotify.SpotifyPlayer;
 
@@ -15,6 +16,7 @@ public class TrackPlayer {
 
     private PlaylistManager playlistManager;
     private SpotifyPlayer spotifyPlayer;
+    private SoundcloudPlayer soundcloudPlayer;
     private int playingIndex;
     private boolean isPlaying;
 
@@ -67,7 +69,8 @@ public class TrackPlayer {
                 }
             });
         }else{
-
+            Timber.i("Playing soundcloud track %s at position %d", track.title, index);
+            soundcloudPlayer = new SoundcloudPlayer(track.trackId.toString());
         }
 
         isPlaying = true;
@@ -91,7 +94,17 @@ public class TrackPlayer {
                 }
             }
         }else{
-
+            if(isPlaying){
+                soundcloudPlayer.pause();
+            } else{
+                if(soundcloudPlayer != null){
+                    isPlaying = true;
+                    soundcloudPlayer.resume();
+                }else{
+                    isPlaying = false;
+                    playTrack(playingIndex);
+                }
+            }
         }
     }
 
