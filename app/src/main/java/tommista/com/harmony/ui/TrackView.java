@@ -6,8 +6,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import timber.log.Timber;
 import tommista.com.harmony.R;
 import tommista.com.harmony.TrackPlayer;
 
@@ -41,7 +43,17 @@ public class TrackView extends LinearLayout{
         songTextView.setText(trackPlayer.getCurrentTrack().title);
         artistTextView.setText(trackPlayer.getCurrentTrack().artist);
 
-        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(imageView);
+        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+                Timber.i("Picasso success");
+            }
+
+            @Override
+            public void onError() {
+                Timber.i("Picasso failure :(");
+            }
+        });
 
     }
 }
