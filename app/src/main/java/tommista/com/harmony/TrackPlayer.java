@@ -113,6 +113,9 @@ public class TrackPlayer {
     }
 
     public void playPauseTrack(){
+        if (playingIndex >= playlistManager.trackList.size())
+            playingIndex = playlistManager.trackList.size() - 1;
+        
         Track track = playlistManager.trackList.get(playingIndex);
 
         Timber.i("playPauseTrack begin isPlaying: " + isPlaying);
@@ -202,6 +205,10 @@ public class TrackPlayer {
 
     public boolean isPlaying(){
         return isPlaying;
+    }
+
+    public int getPlayingIndex() {
+        return playingIndex;
     }
 
     public void setShuffle(boolean isShuffle){

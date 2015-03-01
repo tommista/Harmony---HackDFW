@@ -43,6 +43,11 @@ public class PlaylistManager {
         serializeList();
     }
 
+    public void deleteTrack(int index) {
+        trackList.remove(index);
+        serializeList();
+    }
+
     public void loadList(){
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
