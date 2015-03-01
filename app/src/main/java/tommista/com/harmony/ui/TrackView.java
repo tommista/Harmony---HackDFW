@@ -45,6 +45,7 @@ public class TrackView extends LinearLayout{
     private TrackPlayer trackPlayer;
     private TextView shuffleButton;
     private TextView repeatButton;
+    private TextView playlistbutton;
 
     public TrackView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -127,13 +128,16 @@ public class TrackView extends LinearLayout{
         imageView = (ImageView) this.findViewById(R.id.image_view);
         shuffleButton = (TextView) this.findViewById(R.id.shuffle_button);
         repeatButton = (TextView) this.findViewById(R.id.repeat_button);
+        playlistbutton = (TextView) this.findViewById(R.id.goto_playlist_button);
 
         Typeface font = Typeface.createFromAsset(HarmonyActivity.getInstance().getAssets(), "icomoon.ttf");
         shuffleButton.setTypeface(font);
         repeatButton.setTypeface(font);
+        playlistbutton.setTypeface(font);
 
         shuffleButton.setText("\ue60a");
         repeatButton.setText("\ue605");
+        playlistbutton.setText("\ue608");
 
         shuffleButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -148,6 +152,13 @@ public class TrackView extends LinearLayout{
             public void onClick(View v) {
                 trackPlayer.setRepeat(!trackPlayer.isRepeat);
                 adjustRepeat();
+            }
+        });
+
+        playlistbutton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HarmonyActivity.getInstance().setContentView(R.layout.playlist_view);
             }
         });
 
