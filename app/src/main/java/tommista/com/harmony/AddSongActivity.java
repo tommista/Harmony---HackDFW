@@ -14,6 +14,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
+import tommista.com.harmony.managers.PlaylistManager;
+import tommista.com.harmony.models.Track;
 import tommista.com.harmony.spotify.SpotifyAuthenticator;
 import tommista.com.harmony.spotify.models.SpotifyTrack;
 import tommista.com.harmony.spotify.webapi.SpotifyApi;
@@ -121,6 +123,7 @@ public class AddSongActivity extends Activity {
             @Override
             public void success(SpotifyTrack spotifyTrack, Response response) {
                 Timber.i(spotifyTrack.name + " " + spotifyTrack.href);
+                PlaylistManager.getInstance().addTrack(new Track(spotifyTrack));
                 dataSuccess();
             }
 
