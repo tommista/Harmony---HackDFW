@@ -39,9 +39,15 @@ public class PlaylistManager {
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
         SharedPreferences prefs = HarmonyActivity.getInstance().getSharedPreferences("tommista.com.harmony", Context.MODE_PRIVATE);
-        String json = prefs.getString("jsonData", "{}");
+        String json = prefs.getString("jsonData", "");
 
-        trackList = new ArrayList<Track>(Arrays.asList(gson.fromJson(json, Track[].class)));
+        if(json.isEmpty()){
+            trackList = new ArrayList<Track>();
+        }else{
+            trackList = new ArrayList<Track>(Arrays.asList(gson.fromJson(json, Track[].class)));
+        }
+
+
     }
 
     public void serializeList(){
