@@ -34,6 +34,8 @@ public class HarmonyActivity extends ActionBarActivity {
 
         setContentView(R.layout.playlist_view);
 
+        SpotifyAuthenticator.authenticate(this, SPOTIFY_REQUEST_CODE);
+
         PlaylistManager.getInstance().loadList();
 
     }
