@@ -11,6 +11,7 @@ public class TrackPlayer {
     private static TrackPlayer instance;
 
     private PlaylistManager playlistManager;
+    private int playingIndex;
 
     public static TrackPlayer getInstance(){
         if(instance == null){
@@ -21,6 +22,7 @@ public class TrackPlayer {
 
     private TrackPlayer(){
         playlistManager = PlaylistManager.getInstance();
+        playingIndex = 0;
     }
 
     public Track getCurrentTrack(){
@@ -28,8 +30,13 @@ public class TrackPlayer {
         if(playlistManager.trackList.size() == 0){
             return new Track("Empty", "Empty");
         }else{
-            return playlistManager.trackList.get(0);
+            return playlistManager.trackList.get(playingIndex);
         }
+    }
+
+    public void playTrack(int index){
+        playPauseTrack();
+        playingIndex = index;
     }
 
     public void playPauseTrack(){

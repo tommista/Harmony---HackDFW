@@ -10,7 +10,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import timber.log.Timber;
+import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
+import tommista.com.harmony.TrackPlayer;
 import tommista.com.harmony.models.Track;
 
 /**
@@ -37,8 +39,17 @@ public class PlaylistAdapter extends ArrayAdapter<Track> {
 
         Timber.i("convert view is null: " + (convertView == null));
 
+        View trackItem = (View) convertView.findViewById(R.id.track_item);
         TextView songName = (TextView) convertView.findViewById(R.id.track_name);
         TextView artistName = (TextView) convertView.findViewById(R.id.artist_name);
+
+        trackItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrackPlayer.getInstance().playTrack(position);
+                HarmonyActivity.getInstance().setContentView(R.layout.track_view);
+            }
+        });
 
         Timber.i("Track: %s Artist: %s", track.title, track.artist);
 
