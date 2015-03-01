@@ -51,6 +51,8 @@ public class TrackPlayer {
 
         playingIndex = index;
 
+        HarmonyActivity.getInstance().setContentView(R.layout.track_view);
+
         Track track = playlistManager.trackList.get(playingIndex);
 
         Timber.i("wtf " + track.isSpotifyTrack);
