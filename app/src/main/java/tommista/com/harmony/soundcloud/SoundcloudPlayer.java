@@ -31,11 +31,15 @@ public class SoundcloudPlayer {
     }
 
     public void pause(){
-
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+        }
     }
 
     public void resume(){
-
+        if(!mediaPlayer.isPlaying()){
+            mediaPlayer.start();
+        }
     }
 
 }

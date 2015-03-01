@@ -1,13 +1,13 @@
 package tommista.com.harmony;
 
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -26,44 +26,30 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import timber.log.Timber;
+import tommista.com.harmony.soundcloud.SoundcloudPlayer;
 import tommista.com.harmony.soundcloud.SoundcloudTrack;
 
 
-public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.OnPreparedListener {
-    private  MediaPlayer mMediaPlayer;
+public class HarmonyActivity extends ActionBarActivity{
+
+    SoundcloudPlayer player;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_harmony);
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setOnPreparedListener(this);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
-
-        String clientId = "55de8cc1d6246dd72e0a78b1c70fd91a";
-        String secret = "ab4c14572d6c83b5ec1e333ce9de47c5";
-        String callbackUrl = "harmony://soundcloud/callback";
+        Button textView = (Button) this.findViewById(R.id.asdf);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                player.pause();
+            }
+        });
 
         String shareURL = "Long Way Down - SoundCloud Listen to Long Way Down by Robert DeLong #np on #SoundCloud http://soundcloud.com/robertdelong/long-way-down";
-        String url = shareURL.substring(shareURL.indexOf("http"),shareURL.length());
 
-        Log.i("substring",url);
-
-
-        URL url2 = null;
-        try {
-            String apiUrl = "http://api.soundcloud.com/resolve.json?url=" + url + "&client_id=55de8cc1d6246dd72e0a78b1c70fd91a";
-            url2 = new URL(apiUrl);
-            new DownloadResolveMetaData().execute(url2);
-        } catch (MalformedURLException e) {
-            Log.e("onCreate", "Could not start resolvemetadata background task");
-            e.printStackTrace();
-        }
-
-        }
-    public void onPrepared(MediaPlayer mediaPlayer){
-        //mMediaPlayer.start();
-        Log.i("playing", "should be playing the song");
+        parseSoundcloudIntent(shareURL);
     }
 
     @Override
@@ -87,6 +73,26 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void parseSoundcloudIntent(String data){
+        String clientId = "55de8cc1d6246dd72e0a78b1c70fd91a";
+        String secret = "ab4c14572d6c83b5ec1e333ce9de47c5";
+        String callbackUrl = "harmony://soundcloud/callback";
+
+        String url = data.substring(data.indexOf("http"),data.length());
+
+        Log.i("substring",url);
+
+        URL trackUrl = null;
+        try {
+            String apiUrl = "http://api.soundcloud.com/resolve.json?url=" + url + "&client_id=55de8cc1d6246dd72e0a78b1c70fd91a";
+            trackUrl = new URL(apiUrl);
+            new DownloadResolveMetaData().execute(trackUrl);
+        } catch (MalformedURLException e) {
+            Log.e("onCreate", "Could not start resolvemetadata background task");
+            e.printStackTrace();
+        }
     }
 
     private class DownloadResolveMetaData extends AsyncTask<URL, Integer, String> {
@@ -133,9 +139,6 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
                 }
             }
             return result;
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
         }
 
         protected void onPostExecute(String result) {
@@ -203,22 +206,14 @@ public class HarmonyActivity extends ActionBarActivity implements MediaPlayer.On
             return track;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-        }
-
         protected void onPostExecute(SoundcloudTrack result) {
-            try {
-                Log.d("starting media player", result.uri.toString());
+            Log.d("starting media player", result.uri.toString());
 
-                String uriWithClientId = result.uri.toString() + "/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a";
+            //String uriWithClientId = result.uri.toString() + "/stream?client_id=55de8cc1d6246dd72e0a78b1c70fd91a";
 
-                mMediaPlayer.setDataSource(uriWithClientId);
-                mMediaPlayer.prepare();
-                mMediaPlayer.start();
-                Log.d(":)", "Success");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            player = new SoundcloudPlayer(result.uri.toString());
+
+            Log.d(":)", "Success");
         }
     }
 
