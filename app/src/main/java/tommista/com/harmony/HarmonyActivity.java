@@ -35,7 +35,7 @@ public class HarmonyActivity extends Activity {
 
         setContentView(R.layout.playlist_view);
 
-        SpotifyAuthenticator.authenticate(this, SPOTIFY_REQUEST_CODE);
+        SpotifyAuthenticator.authenticate(getInstance(), SPOTIFY_REQUEST_CODE);
 
         PlaylistManager.getInstance().loadList();
 
