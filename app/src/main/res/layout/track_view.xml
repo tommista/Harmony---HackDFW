@@ -19,10 +19,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView android:id="@+id/image_background"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
+            android:foreground="#73000000">
+
+            <ImageView android:id="@+id/image_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
