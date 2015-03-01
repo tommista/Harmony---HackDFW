@@ -2,6 +2,7 @@ package tommista.com.harmony;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import timber.log.Timber;
@@ -13,9 +14,11 @@ public class HarmonyActivity extends Activity {
 
     private static final int SPOTIFY_REQUEST_CODE = 1337;
 
-    public static Activity instance;
+    public static HarmonyActivity instance;
 
-    public static Activity getInstance(){
+    public Bitmap bitmap;
+
+    public static HarmonyActivity getInstance(){
         return instance;
     }
 
@@ -55,6 +58,10 @@ public class HarmonyActivity extends Activity {
     public void onBackPressed(){
         Timber.i("back button pressed");
         setContentView(R.layout.playlist_view);
+    }
+
+    public void setBitmap(Bitmap bitmap){
+        this.bitmap = bitmap;
     }
 
     

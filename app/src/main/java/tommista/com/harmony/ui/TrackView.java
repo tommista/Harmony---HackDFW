@@ -1,25 +1,19 @@
 package tommista.com.harmony.ui;
 
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Typeface;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.FrameLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -203,6 +197,8 @@ public class TrackView extends LinearLayout{
             script.setInput(input);
             script.forEach(output);
             output.copyTo(blur);
+
+            HarmonyActivity.getInstance().setBitmap(blur);
 
             imageBackground.setImageBitmap(blur);
         }

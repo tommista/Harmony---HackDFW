@@ -7,6 +7,8 @@
     <color name="orange">#F29319</color>
     <color name="green">#BAEBAE</color>
     <color name="gray">#CCCCCC</color>
+    <color name="blueGrayAlpha">#B3EDEDEF</color>
+    <color name="clear">#00000000</color>
 
     <!-- Specific piece colors !-->
     <color name="textViewStroke">#DDDDDD</color>

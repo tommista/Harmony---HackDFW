@@ -4,87 +4,108 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="10"
     android:background="@color/blueGray">
 
-    <View
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:background="@color/darkBlue">
-
-    </View>
-
-    <ListView
-        android:id="@+id/playlist_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8.5"
-        android:layout_marginTop="10dp">
-        
-        </ListView>
+        android:layout_height="match_parent"
+        android:foreground="#73000000">
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+    </FrameLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:weightSum="4"
+        android:layout_height="match_parent"
+        android:weightSum="10"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginLeft="20dp">
 
-        <tommista.com.harmony.ui.VCRView
-            android:id="@+id/playlist_vcr"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:layout_marginTop="10dp">
+
+            <ListView
+                android:id="@+id/playlist_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_background">
+            </ListView>
+
+            </RelativeLayout>
+
+        <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:weightSum="3"
-            android:layout_marginRight="10dp">
-
-            <TextView
-                android:id="@+id/rewind_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="32dp"
-                android:background="@drawable/vcr_button"
-                android:layout_marginRight="10dp"/>
-
-            <TextView
-                android:id="@+id/play_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="32dp"
-                android:background="@drawable/vcr_button"
-                android:layout_marginRight="10dp"/>
-
-            <TextView
-                android:id="@+id/forward_button"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="32dp"
-                android:background="@drawable/vcr_button"/>
-
-        </tommista.com.harmony.ui.VCRView>
-
-
-        <TextView
-            android:id="@+id/goto_track_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="32dp"
-            android:background="@drawable/goto_track_button"/>
+            android:weightSum="4"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="20dp">
+
+            <tommista.com.harmony.ui.VCRView
+                android:id="@+id/playlist_vcr"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:weightSum="3"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/rewind_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="32dp"
+                    android:background="@drawable/vcr_button"
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:id="@+id/play_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="32dp"
+                    android:background="@drawable/vcr_button"
+                    android:layout_marginRight="10dp"/>
+
+                <TextView
+                    android:id="@+id/forward_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="32dp"
+                    android:background="@drawable/vcr_button"/>
+
+            </tommista.com.harmony.ui.VCRView>
+
+
+            <TextView
+                android:id="@+id/goto_track_button"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="32dp"
+                android:background="@drawable/goto_track_button"/>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+
 
 
 

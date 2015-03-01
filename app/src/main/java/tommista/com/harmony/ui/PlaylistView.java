@@ -8,7 +8,8 @@ import android.graphics.Typeface;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,12 +22,13 @@ import tommista.com.harmony.managers.PlaylistManager;
 /**
  * Created by tbrown on 2/28/15.
  */
-public class PlaylistView  extends LinearLayout{
+public class PlaylistView  extends FrameLayout{
 
     private Context context;
     private PlaylistAdapter playlistAdapter;
     private VCRView vcr;
     private TextView gotoTrackButton;
+    private ImageView imageView;
 
     public PlaylistView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -59,10 +61,15 @@ public class PlaylistView  extends LinearLayout{
         final ListView listView = (ListView) this.findViewById(R.id.playlist_list_view);
         vcr = (VCRView) this.findViewById(R.id.playlist_vcr);
         gotoTrackButton = (TextView) this.findViewById(R.id.goto_track_button);
+        imageView = (ImageView) this.findViewById(R.id.image_view);
 
         Typeface font = Typeface.createFromAsset(context.getAssets(), "icomoon.ttf");
         gotoTrackButton.setTypeface(font);
         gotoTrackButton.setText("\ue608");
+
+        if(HarmonyActivity.getInstance().bitmap != null){
+            imageView.setImageBitmap(HarmonyActivity.getInstance().bitmap);
+        }
 
         gotoTrackButton.setOnClickListener(new OnClickListener() {
             @Override

@@ -67,7 +67,7 @@ public class TrackPlayer {
             if(isRepeat){
                 index = 0;
             }else{
-                index--;
+                playingIndex = index - 1;
                 return;
             }
         } else if(index < 0){
