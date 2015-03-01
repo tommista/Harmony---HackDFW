@@ -1,10 +1,17 @@
 package tommista.com.harmony;
 
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+
 import timber.log.Timber;
 import tommista.com.harmony.managers.PlaylistManager;
 import tommista.com.harmony.models.Track;
+import tommista.com.harmony.soundcloud.SoundcloudPlayer;
 import tommista.com.harmony.spotify.EndTrackCallback;
 import tommista.com.harmony.spotify.SpotifyPlayer;
+import tommista.com.harmony.ui.VCRView;
 
 /**
  * Created by tbrown on 2/28/15.
@@ -15,6 +22,7 @@ public class TrackPlayer {
 
     private PlaylistManager playlistManager;
     private SpotifyPlayer spotifyPlayer;
+    private SoundcloudPlayer soundcloudPlayer;
     private int playingIndex;
     private boolean isPlaying;
 
@@ -52,7 +60,7 @@ public class TrackPlayer {
 
         playingIndex = index;
 
-        HarmonyActivity.getInstance().setContentView(R.layout.track_view);
+        //HarmonyActivity.getInstance().setContentView(R.layout.track_view);
 
         Track track = playlistManager.trackList.get(playingIndex);
 
@@ -67,15 +75,31 @@ public class TrackPlayer {
                 }
             });
         }else{
-
+            Timber.i("Playing soundcloud track %s at position %d", track.title, index);
+            soundcloudPlayer = new SoundcloudPlayer(track.trackId.toString(), new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    isPlaying = false;
+                    playingIndex++;
+                    playTrack(playingIndex);
+                }
+            });
         }
 
         isPlaying = true;
+
+        if(VCRView.instance != null){
+            VCRView.instance.adjustPlayPause();
+        }
+
+        sendNextTrackMessage();
 
     }
 
     public void playPauseTrack(){
         Track track = playlistManager.trackList.get(playingIndex);
+
+        Timber.i("playPauseTrack begin isPlaying: " + isPlaying);
 
         if(track.isSpotifyTrack){
             if(isPlaying){
@@ -91,8 +115,25 @@ public class TrackPlayer {
                 }
             }
         }else{
-
+            if(isPlaying){
+                isPlaying = false;
+                soundcloudPlayer.pause();
+            } else{
+                if(soundcloudPlayer != null){
+                    isPlaying = true;
+                    soundcloudPlayer.resume();
+                }else{
+                    isPlaying = false;
+                    playTrack(playingIndex);
+                }
+            }
         }
+
+        if(VCRView.instance != null){
+            VCRView.instance.adjustPlayPause();
+        }
+
+        Timber.i("playPauseTrack end isPlaying: " + isPlaying);
     }
 
     public void previousTrack(){
@@ -109,6 +150,16 @@ public class TrackPlayer {
 
         playTrack(playingIndex);
 
+    }
+
+    private void sendNextTrackMessage() {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("nextTrackIntent");
+        LocalBroadcastManager.getInstance(HarmonyActivity.getInstance()).sendBroadcast(intent);
+    }
+
+    public boolean isPlaying(){
+        return isPlaying;
     }
 
 }

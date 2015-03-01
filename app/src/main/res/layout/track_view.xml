@@ -46,7 +46,12 @@
                 android:textSize="32dp"
                 android:gravity="center"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp">
+                android:layout_marginRight="20dp"
+                android:textColor="@android:color/white"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1">
                 <requestFocus/>
             </TextView>
 
@@ -63,7 +68,12 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                android:textColor="@android:color/white"
+                android:shadowColor="#000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="1"/>
 
 
             <tommista.com.harmony.ui.VCRView

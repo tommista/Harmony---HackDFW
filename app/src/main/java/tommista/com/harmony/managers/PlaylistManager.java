@@ -2,7 +2,10 @@ package tommista.com.harmony.managers;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -11,6 +14,7 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import timber.log.Timber;
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.models.Track;
 
@@ -36,6 +40,7 @@ public class PlaylistManager {
 
     public void addTrack(Track track){
         trackList.add(track);
+        serializeList();
     }
 
     public void loadList(){
@@ -51,7 +56,9 @@ public class PlaylistManager {
             trackList = new ArrayList<Track>(Arrays.asList(gson.fromJson(json, Track[].class)));
         }
 
+        Timber.i("loadList");
 
+        sendTrackAddedMessage();
     }
 
     public void serializeList(){
@@ -65,6 +72,12 @@ public class PlaylistManager {
         String json = gson.toJson(trackList);
 
         prefs.edit().putString("jsonData", json).apply();
+    }
+
+    private void sendTrackAddedMessage() {
+        Log.d("sender", "Broadcasting message");
+        Intent intent = new Intent("newTrackIntent");
+        LocalBroadcastManager.getInstance(HarmonyActivity.getInstance()).sendBroadcast(intent);
     }
 
 }

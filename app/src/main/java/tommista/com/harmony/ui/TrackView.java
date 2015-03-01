@@ -11,6 +11,11 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -23,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import timber.log.Timber;
+import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
 import tommista.com.harmony.TrackPlayer;
 
@@ -31,6 +37,7 @@ import tommista.com.harmony.TrackPlayer;
  */
 public class TrackView extends LinearLayout{
 
+    private final BackgroundTarget target = new BackgroundTarget();
     private Context context;
     private TextView songTextView;
     private TextView artistTextView;
@@ -43,7 +50,33 @@ public class TrackView extends LinearLayout{
         super(context, attrs);
         this.context = context;
         trackPlayer = TrackPlayer.getInstance();
+
+        LocalBroadcastManager.getInstance(context).registerReceiver(mMessageReceiver,new IntentFilter("nextTrackIntent"));
     }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    songTextView = (TextView) findViewById(R.id.song_name);
+                    artistTextView = (TextView) findViewById(R.id.artist_name);
+                    vcrView = (VCRView) findViewById(R.id.track_vcr);
+                    imageView = (ImageView) findViewById(R.id.image_view);
+                    imageBackground = (ImageView) findViewById(R.id.image_background);
+
+                    songTextView.setText(trackPlayer.getCurrentTrack().title);
+                    artistTextView.setText(trackPlayer.getCurrentTrack().artist);
+
+                    Picasso.with(HarmonyActivity.getInstance()).load(trackPlayer.getCurrentTrack().imageURL).into(target);
+
+                }
+            });
+
+        }
+    };
 
     @Override
     protected void onFinishInflate(){
@@ -77,37 +110,39 @@ public class TrackView extends LinearLayout{
         artistTextView.setFocusable(true);
         artistTextView.setSelected(true);
 
-        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(new Target() {
+        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(target);
 
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Timber.i("Picasso success");
-                imageView.setImageBitmap(bitmap);
+    }
 
-                Bitmap blur = bitmap.copy(bitmap.getConfig(), true);
+    private class BackgroundTarget implements Target {
 
-                final RenderScript rs = RenderScript.create(context);
-                final Allocation input = Allocation.createFromBitmap(rs, blur, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-                final Allocation output = Allocation.createTyped(rs, input.getType());
-                final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-                script.setRadius(25.f /* e.g. 3.f */);
-                script.setInput(input);
-                script.forEach(output);
-                output.copyTo(blur);
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            Timber.i("Picasso success");
+            imageView.setImageBitmap(bitmap);
 
-                imageBackground.setImageBitmap(blur);
-            }
+            Bitmap blur = bitmap.copy(bitmap.getConfig(), true);
 
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                Timber.i("Picasso failure :(");
-            }
+            final RenderScript rs = RenderScript.create(HarmonyActivity.getInstance());
+            final Allocation input = Allocation.createFromBitmap(rs, blur, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+            final Allocation output = Allocation.createTyped(rs, input.getType());
+            final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            script.setRadius(25.f /* e.g. 3.f */);
+            script.setInput(input);
+            script.forEach(output);
+            output.copyTo(blur);
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
+            imageBackground.setImageBitmap(blur);
+        }
 
-            }
-        });
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+            Timber.i("Picasso failure :(");
+        }
 
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+        }
     }
 }
