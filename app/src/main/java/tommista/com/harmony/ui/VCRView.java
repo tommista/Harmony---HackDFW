@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import timber.log.Timber;
+import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
 import tommista.com.harmony.TrackPlayer;
 
@@ -15,6 +16,9 @@ import tommista.com.harmony.TrackPlayer;
  * Created by tbrown on 2/28/15.
  */
 public class VCRView extends LinearLayout{
+
+    public static VCRView instance;
+
 
     private Context context;
 
@@ -26,6 +30,7 @@ public class VCRView extends LinearLayout{
 
     public VCRView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        instance = this;
         this.context = context;
         trackPlayer = TrackPlayer.getInstance();
     }
@@ -46,7 +51,10 @@ public class VCRView extends LinearLayout{
         forwardButton.setTypeface(font);
 
         rewindButton.setText("\ue600");
-        playButton.setText("\ue603");
+        //playButton.setText("\ue603");
+
+        adjustPlayPause();
+
         forwardButton.setText("\ue601");
 
 
@@ -70,6 +78,20 @@ public class VCRView extends LinearLayout{
                 trackPlayer.nextTrack();
             }
         });
+    }
+
+    public void adjustPlayPause(){
+
+        HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(trackPlayer.isPlaying()){
+                        playButton.setText("\ue602");
+                    }else{
+                        playButton.setText("\ue603");
+                    }
+                }
+            });
     }
 
 }

@@ -11,6 +11,7 @@ import tommista.com.harmony.models.Track;
 import tommista.com.harmony.soundcloud.SoundcloudPlayer;
 import tommista.com.harmony.spotify.EndTrackCallback;
 import tommista.com.harmony.spotify.SpotifyPlayer;
+import tommista.com.harmony.ui.VCRView;
 
 /**
  * Created by tbrown on 2/28/15.
@@ -87,6 +88,10 @@ public class TrackPlayer {
 
         isPlaying = true;
 
+        if(VCRView.instance != null){
+            VCRView.instance.adjustPlayPause();
+        }
+
         sendNextTrackMessage();
 
     }
@@ -124,6 +129,10 @@ public class TrackPlayer {
             }
         }
 
+        if(VCRView.instance != null){
+            VCRView.instance.adjustPlayPause();
+        }
+
         Timber.i("playPauseTrack end isPlaying: " + isPlaying);
     }
 
@@ -147,6 +156,10 @@ public class TrackPlayer {
         Log.d("sender", "Broadcasting message");
         Intent intent = new Intent("nextTrackIntent");
         LocalBroadcastManager.getInstance(HarmonyActivity.getInstance()).sendBroadcast(intent);
+    }
+
+    public boolean isPlaying(){
+        return isPlaying;
     }
 
 }
