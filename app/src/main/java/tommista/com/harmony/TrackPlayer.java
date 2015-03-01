@@ -54,7 +54,7 @@ public class TrackPlayer {
             playPauseTrack();
         }
 
-        if(index >= playlistManager.trackList.size()){
+        if(index >= playlistManager.trackList.size() || index < 0){
             index = 0;
         }
 
@@ -137,7 +137,16 @@ public class TrackPlayer {
     }
 
     public void previousTrack(){
-        PlaylistManager.getInstance().serializeList();
+        //PlaylistManager.getInstance().serializeList();
+
+        if(isPlaying){
+            playPauseTrack();
+        }
+
+        playingIndex--;
+
+        playTrack(playingIndex);
+
     }
 
     public void nextTrack(){
