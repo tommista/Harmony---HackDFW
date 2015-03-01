@@ -32,6 +32,8 @@ public class HarmonyActivity extends ActionBarActivity {
 
         setContentView(R.layout.playlist_view);
 
+        //PlaylistManager.getInstance().loadList();
+
         instance = this;
     }
 
