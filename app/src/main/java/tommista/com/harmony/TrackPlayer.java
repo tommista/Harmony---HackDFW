@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.util.Random;
+
 import timber.log.Timber;
 import tommista.com.harmony.managers.PlaylistManager;
 import tommista.com.harmony.models.Track;
@@ -27,6 +29,7 @@ public class TrackPlayer {
     private boolean isPlaying;
     public boolean isShuffle;
     public boolean isRepeat;
+    private Random rand;
 
     public static TrackPlayer getInstance(){
         if(instance == null){
@@ -41,6 +44,7 @@ public class TrackPlayer {
         isPlaying = false;
         isShuffle = false;
         isRepeat = false;
+        rand = new Random(4);
     }
 
     public Track getCurrentTrack(){
@@ -74,7 +78,7 @@ public class TrackPlayer {
                 @Override
                 public void trackEnded() {
                     isPlaying = false;
-                    playingIndex++;
+                    incrementIndex();
                     playTrack(playingIndex);
                 }
             });
@@ -84,7 +88,7 @@ public class TrackPlayer {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     isPlaying = false;
-                    playingIndex++;
+                    incrementIndex();
                     playTrack(playingIndex);
                 }
             });
@@ -147,7 +151,7 @@ public class TrackPlayer {
             playPauseTrack();
         }
 
-        playingIndex--;
+        decrementIndex();
 
         playTrack(playingIndex);
 
@@ -159,7 +163,7 @@ public class TrackPlayer {
             playPauseTrack();
         }
 
-        playingIndex++;
+        incrementIndex();
 
         playTrack(playingIndex);
 
@@ -169,6 +173,23 @@ public class TrackPlayer {
         Log.d("sender", "Broadcasting message");
         Intent intent = new Intent("nextTrackIntent");
         LocalBroadcastManager.getInstance(HarmonyActivity.getInstance()).sendBroadcast(intent);
+    }
+
+    public void incrementIndex(){
+        if(isShuffle){
+            playingIndex = rand.nextInt(playlistManager.trackList.size());
+            Timber.i("Randomly selected: " + playingIndex);
+        }else{
+            playingIndex++;
+        }
+    }
+
+    public void decrementIndex(){
+        if(isShuffle){
+            playingIndex = rand.nextInt(playlistManager.trackList.size());
+        }else{
+            playingIndex--;
+        }
     }
 
     public boolean isPlaying(){
