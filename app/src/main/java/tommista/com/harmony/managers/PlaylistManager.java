@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.models.Track;
@@ -30,8 +31,16 @@ public class PlaylistManager {
 
     public PlaylistManager(){
         trackList = new ArrayList<>();
-        trackList.add(new Track("test", "asdf"));
-        trackList.add(new Track("asdf", "qwer"));
+    }
+
+    public void loadList(){
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+        SharedPreferences prefs = HarmonyActivity.getInstance().getSharedPreferences("tommista.com.harmony", Context.MODE_PRIVATE);
+        String json = prefs.getString("jsonData", "{}");
+
+        trackList = new ArrayList<Track>(Arrays.asList(gson.fromJson(json, Track[].class)));
     }
 
     public void serializeList(){
@@ -44,7 +53,6 @@ public class PlaylistManager {
         String json = gson.toJson(trackList);
 
         prefs.edit().putString("jsonData", json).apply();
-
     }
 
 }
