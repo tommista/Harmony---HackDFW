@@ -3,6 +3,7 @@ package tommista.com.harmony;
 import timber.log.Timber;
 import tommista.com.harmony.managers.PlaylistManager;
 import tommista.com.harmony.models.Track;
+import tommista.com.harmony.spotify.EndTrackCallback;
 import tommista.com.harmony.spotify.SpotifyPlayer;
 
 /**
@@ -59,7 +60,14 @@ public class TrackPlayer {
 
         if(track.isSpotifyTrack){
             Timber.i("Playing spotify track %s at position %d", track.title, index);
-            spotifyPlayer = new SpotifyPlayer(HarmonyActivity.getInstance(), track.trackId);
+            spotifyPlayer = new SpotifyPlayer(HarmonyActivity.getInstance(), track.trackId, new EndTrackCallback() {
+                @Override
+                public void trackEnded() {
+                    isPlaying = false;
+                    playingIndex++;
+                    playTrack(playingIndex);
+                }
+            });
             isPlaying = true;
         }else{
 

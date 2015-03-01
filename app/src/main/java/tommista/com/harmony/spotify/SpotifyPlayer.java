@@ -22,13 +22,15 @@ public class SpotifyPlayer {
     private Context context;
     private Player player;
     private String songID;
+    private EndTrackCallback callback;
 
     private ConnectionStateCallback connectionStateCallback;
     private PlayerNotificationCallback playerNotificationCallback;
 
-    public SpotifyPlayer(Context context, String songID) {
+    public SpotifyPlayer(Context context, String songID, EndTrackCallback callback) {
         this.context = context;
         this.songID = songID;
+        this.callback = callback;
 
         makeListeners();
         init();
@@ -93,6 +95,11 @@ public class SpotifyPlayer {
 
             @Override
             public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
+
+                if(eventType == EventType.TRACK_END){
+                    callback.trackEnded();
+                }
+
                 Timber.i("Playback Event: " + eventType.name());
             }
 
