@@ -15,7 +15,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 import tommista.com.harmony.spotify.SpotifyAuthenticator;
-import tommista.com.harmony.spotify.models.Track;
+import tommista.com.harmony.spotify.models.SpotifyTrack;
 import tommista.com.harmony.spotify.webapi.SpotifyApi;
 import tommista.com.harmony.spotify.webapi.SpotifyService;
 
@@ -117,10 +117,10 @@ public class AddSongActivity extends Activity {
 
         SpotifyService spotify = wrapper.getService();
 
-        spotify.getTrack(trackID, new Callback<Track>() {
+        spotify.getTrack(trackID, new Callback<SpotifyTrack>() {
             @Override
-            public void success(Track track, Response response) {
-                Timber.i(track.name + " " + track.href);
+            public void success(SpotifyTrack spotifyTrack, Response response) {
+                Timber.i(spotifyTrack.name + " " + spotifyTrack.href);
                 dataSuccess();
             }
 
