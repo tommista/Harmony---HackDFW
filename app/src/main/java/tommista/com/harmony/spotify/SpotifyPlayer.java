@@ -96,7 +96,7 @@ public class SpotifyPlayer {
             @Override
             public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
 
-                if(eventType == EventType.TRACK_END){
+                if(eventType == EventType.TRACK_END && playerState.positionInMs > 100){
                     callback.trackEnded();
                 }
 
