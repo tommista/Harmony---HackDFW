@@ -50,8 +50,8 @@ public class SpotifyPlayer {
             public void onInitialized(Player player) {
                 player.addConnectionStateCallback(connectionStateCallback);
                 player.addPlayerNotificationCallback(playerNotificationCallback);
-                //player.play("spotify:track:" + songID);
-                player.play("spotify:track:3DujQnASb2AqRJFr52EehS");
+                player.play("spotify:track:" + songID);
+                //player.play("spotify:track:3DujQnASb2AqRJFr52EehS");
             }
 
             @Override

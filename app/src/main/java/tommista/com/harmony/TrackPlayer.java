@@ -5,8 +5,6 @@ import tommista.com.harmony.managers.PlaylistManager;
 import tommista.com.harmony.models.Track;
 import tommista.com.harmony.spotify.SpotifyPlayer;
 
-import static tommista.com.harmony.models.Track.TrackType.SPOTIFY;
-
 /**
  * Created by tbrown on 2/28/15.
  */
@@ -42,14 +40,19 @@ public class TrackPlayer {
     }
 
     public void playTrack(int index){
-        playPauseTrack();
+
+        if(isPlaying){
+            playPauseTrack();
+        }
+
         playingIndex = index;
 
         Track track = playlistManager.trackList.get(playingIndex);
 
-        Timber.i("Playing track %s at position %d", track.title, index);
+        Timber.i("wtf " + track.isSpotifyTrack);
 
-        if(track.trackType == SPOTIFY){
+        if(track.isSpotifyTrack){
+            Timber.i("Playing spotify track %s at position %d", track.title, index);
             spotifyPlayer = new SpotifyPlayer(HarmonyActivity.getInstance(), track.trackId);
             isPlaying = true;
         }else{
@@ -61,22 +64,29 @@ public class TrackPlayer {
     public void playPauseTrack(){
         Track track = playlistManager.trackList.get(playingIndex);
 
-        if(track.trackType == SPOTIFY){
+        if(track.isSpotifyTrack){
             if(isPlaying){
                 spotifyPlayer.pause();
             } else{
                 spotifyPlayer.resume();
             }
+            isPlaying = !isPlaying;
         }else{
 
         }
     }
 
     public void previousTrack(){
-
+        PlaylistManager.getInstance().serializeList();
     }
 
     public void nextTrack(){
+
+        if(isPlaying){
+            playPauseTrack();
+        }
+
+
 
     }
 
