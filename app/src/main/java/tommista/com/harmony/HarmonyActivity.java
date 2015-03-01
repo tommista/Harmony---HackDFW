@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import timber.log.Timber;
+import tommista.com.harmony.managers.PlaylistManager;
 
 
 public class HarmonyActivity extends ActionBarActivity {
@@ -21,6 +22,7 @@ public class HarmonyActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance = this;
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
@@ -30,9 +32,14 @@ public class HarmonyActivity extends ActionBarActivity {
 
         setContentView(R.layout.playlist_view);
 
-        //PlaylistManager.getInstance().loadList();
+        PlaylistManager.getInstance().loadList();
 
-        instance = this;
+    }
+
+    @Override
+    protected void onPause(){
+        PlaylistManager.getInstance().serializeList();
+        super.onPause();
     }
 
 

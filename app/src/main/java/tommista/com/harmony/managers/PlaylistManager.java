@@ -1,5 +1,6 @@
 package tommista.com.harmony.managers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -44,7 +45,8 @@ public class PlaylistManager {
     }
 
     public void serializeList(){
-        SharedPreferences prefs = HarmonyActivity.getInstance().getSharedPreferences("tommista.com.harmony", Context.MODE_PRIVATE);
+        Activity activity = HarmonyActivity.getInstance();
+        SharedPreferences prefs = activity.getSharedPreferences("tommista.com.harmony", Context.MODE_PRIVATE);
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
