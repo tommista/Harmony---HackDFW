@@ -2,8 +2,11 @@ package tommista.com.harmony.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import tommista.com.harmony.R;
 import tommista.com.harmony.TrackPlayer;
@@ -17,6 +20,7 @@ public class TrackView extends LinearLayout{
     private TextView songTextView;
     private TextView artistTextView;
     private VCRView vcrView;
+    private ImageView imageView;
     private TrackPlayer trackPlayer;
 
     public TrackView(Context context, AttributeSet attrs) {
@@ -32,8 +36,12 @@ public class TrackView extends LinearLayout{
         songTextView = (TextView) this.findViewById(R.id.song_name);
         artistTextView = (TextView) this.findViewById(R.id.artist_name);
         vcrView = (VCRView) this.findViewById(R.id.track_vcr);
+        imageView = (ImageView) this.findViewById(R.id.image_view);
 
         songTextView.setText(trackPlayer.getCurrentTrack().title);
         artistTextView.setText(trackPlayer.getCurrentTrack().artist);
+
+        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(imageView);
+
     }
 }
