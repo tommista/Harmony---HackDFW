@@ -27,7 +27,7 @@ public class HarmonyActivity extends Activity {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
-            // TODO eventually put remote logging into a tree and put here.
+            // TODO eventually put remote logging into a tree and put here.R
         }
 
         setContentView(R.layout.playlist_view);
