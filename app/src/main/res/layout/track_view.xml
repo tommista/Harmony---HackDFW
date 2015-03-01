@@ -123,6 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:textSize="32dp"
                     android:background="@drawable/vcr_button"
                     android:layout_marginRight="10dp"/>
 
@@ -131,6 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:textSize="32dp"
                     android:background="@drawable/vcr_button"/>
 
                 <Button
@@ -138,6 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:textSize="32dp"
                     android:background="@drawable/vcr_button"
                     android:layout_marginLeft="10dp"/>
 
