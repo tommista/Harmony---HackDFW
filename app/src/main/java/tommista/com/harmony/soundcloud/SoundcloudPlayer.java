@@ -28,16 +28,19 @@ public class SoundcloudPlayer {
 
             Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
-            Toast.makeText(HarmonyActivity.getInstance(), "Please Wait", Toast.LENGTH_SHORT).show();
-
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(streamUri);
             mediaPlayer.setOnCompletionListener(callback);
             Timber.i("@@@@ Pre prepare");
-            mediaPlayer.prepare();
+            mediaPlayer.prepareAsync();
             Timber.i("@@@@ Mid");
-            mediaPlayer.start();
-            Timber.i("@@@@ Post Start");
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mediaPlayer.start();
+                    Timber.i("@@@@ Post Start");
+                }
+            });
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -57,12 +60,8 @@ public class SoundcloudPlayer {
         }
     }
 
-    public boolean isPlaying(){
-        if(mediaPlayer != null){
-            return mediaPlayer.isPlaying();
-        } else{
-            return false;
-        }
+    public boolean isPlaying() {
+        return mediaPlayer != null && mediaPlayer.isPlaying();
 
     }
 

@@ -65,7 +65,10 @@ public class TrackView extends LinearLayout{
                     songTextView.setText(trackPlayer.getCurrentTrack().title);
                     artistTextView.setText(trackPlayer.getCurrentTrack().artist);
 
-                    Picasso.with(HarmonyActivity.getInstance()).load(trackPlayer.getCurrentTrack().imageURL).into(target);
+                    String image = trackPlayer.getCurrentTrack().isSpotifyTrack ? 
+                            trackPlayer.getCurrentTrack().imageURL : 
+                            trackPlayer.getCurrentTrack().imageURL.replace("large", "badge");
+                    Picasso.with(HarmonyActivity.getInstance()).load(image).into(target);
                     adjustRepeat();
                     adjustShuffle();
                 }
@@ -140,7 +143,12 @@ public class TrackView extends LinearLayout{
         artistTextView.setFocusable(true);
         artistTextView.setSelected(true);
 
-        Picasso.with(context).load(trackPlayer.getCurrentTrack().imageURL).into(target);
+
+        String image = trackPlayer.getCurrentTrack().isSpotifyTrack ?
+                trackPlayer.getCurrentTrack().imageURL :
+                trackPlayer.getCurrentTrack().imageURL.replace("large", "badge");
+        
+        Picasso.with(context).load(image).into(target);
 
         adjustShuffle();
         adjustRepeat();
@@ -152,7 +160,11 @@ public class TrackView extends LinearLayout{
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             Timber.i("Picasso success");
-            imageView.setImageBitmap(bitmap);
+
+            String image = trackPlayer.getCurrentTrack().isSpotifyTrack ?
+                    trackPlayer.getCurrentTrack().imageURL :
+                    trackPlayer.getCurrentTrack().imageURL.replace("large", "crop");
+            Picasso.with(context).load(image).into(imageView);
 
             Bitmap blur = bitmap.copy(bitmap.getConfig(), true);
 
@@ -187,9 +199,9 @@ public class TrackView extends LinearLayout{
             @Override
             public void run() {
                 if(trackPlayer.isShuffle){
-                    shuffleButton.setTextColor(context.getResources().getColor(R.color.orange));
+                    shuffleButton.setTextColor(context.getResources().getColor(R.color.orange, context.getTheme()));
                 }else{
-                    shuffleButton.setTextColor(context.getResources().getColor(R.color.gray));
+                    shuffleButton.setTextColor(context.getResources().getColor(R.color.gray, context.getTheme()));
                 }
             }
         });
@@ -201,9 +213,9 @@ public class TrackView extends LinearLayout{
             @Override
             public void run() {
                 if(trackPlayer.isRepeat){
-                    repeatButton.setTextColor(context.getResources().getColor(R.color.orange));
+                    repeatButton.setTextColor(context.getResources().getColor(R.color.orange, context.getTheme()));
                 }else{
-                    repeatButton.setTextColor(context.getResources().getColor(R.color.gray));
+                    repeatButton.setTextColor(context.getResources().getColor(R.color.gray, context.getTheme()));
                 }
             }
         });

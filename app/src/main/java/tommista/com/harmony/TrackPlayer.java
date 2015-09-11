@@ -92,7 +92,7 @@ public class TrackPlayer {
             });
         }else{
             Timber.i("Playing soundcloud track %s at position %d", track.title, index);
-            soundcloudPlayer = new SoundcloudPlayer(track.trackId.toString(), new MediaPlayer.OnCompletionListener() {
+            soundcloudPlayer = new SoundcloudPlayer(track.trackId, new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     isPlaying = false;
