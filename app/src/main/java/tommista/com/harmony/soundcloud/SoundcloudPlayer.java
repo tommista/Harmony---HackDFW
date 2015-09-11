@@ -60,9 +60,13 @@ public class SoundcloudPlayer {
         }
     }
 
+    public void clear() {
+        mediaPlayer.reset();
+        mediaPlayer.release();
+    }
+
     public boolean isPlaying() {
         return mediaPlayer != null && mediaPlayer.isPlaying();
 
     }
-
 }

@@ -11,6 +11,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -199,9 +200,9 @@ public class TrackView extends LinearLayout{
             @Override
             public void run() {
                 if(trackPlayer.isShuffle){
-                    shuffleButton.setTextColor(context.getResources().getColor(R.color.orange, context.getTheme()));
+                    shuffleButton.setTextColor(ContextCompat.getColor(context, R.color.orange));
                 }else{
-                    shuffleButton.setTextColor(context.getResources().getColor(R.color.gray, context.getTheme()));
+                    shuffleButton.setTextColor(ContextCompat.getColor(context, R.color.gray));
                 }
             }
         });
@@ -213,9 +214,9 @@ public class TrackView extends LinearLayout{
             @Override
             public void run() {
                 if(trackPlayer.isRepeat){
-                    repeatButton.setTextColor(context.getResources().getColor(R.color.orange, context.getTheme()));
+                    repeatButton.setTextColor(ContextCompat.getColor(context, R.color.orange));
                 }else{
-                    repeatButton.setTextColor(context.getResources().getColor(R.color.gray, context.getTheme()));
+                    repeatButton.setTextColor(ContextCompat.getColor(context, R.color.gray));
                 }
             }
         });
