@@ -1,5 +1,23 @@
 package tommista.com.harmony.models;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import timber.log.Timber;
+import tommista.com.harmony.HarmonyActivity;
+import tommista.com.harmony.R;
 import tommista.com.harmony.soundcloud.SoundcloudTrack;
 import tommista.com.harmony.spotify.models.SpotifyTrack;
 

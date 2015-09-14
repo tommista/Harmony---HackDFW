@@ -7,6 +7,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class SoundcloudArtist {
 
-        @SerializedName("username")
-        public String artistName;
+    @SerializedName("username")
+    public String artistName;
 }

@@ -1,18 +1,24 @@
 package tommista.com.harmony.spotify;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
-import com.spotify.sdk.android.Spotify;
-import com.spotify.sdk.android.playback.Config;
-import com.spotify.sdk.android.playback.ConnectionStateCallback;
-import com.spotify.sdk.android.playback.Player;
-import com.spotify.sdk.android.playback.PlayerNotificationCallback;
-import com.spotify.sdk.android.playback.PlayerState;
+import com.spotify.sdk.android.player.Config;
+import com.spotify.sdk.android.player.ConnectionStateCallback;
+import com.spotify.sdk.android.player.Player;
+import com.spotify.sdk.android.player.PlayerNotificationCallback;
+import com.spotify.sdk.android.player.PlayerState;
+import com.spotify.sdk.android.player.Spotify;
 
 import timber.log.Timber;
+import tommista.com.harmony.Constants;
+import tommista.com.harmony.HarmonyActivity;
+import tommista.com.harmony.HarmonyApp;
 import tommista.com.harmony.R;
+import tommista.com.harmony.tracks.ForegroundService;
+import tommista.com.harmony.tracks.State;
 
 /**
  * Created by Jacob on 2/28/15.
@@ -21,15 +27,14 @@ public class SpotifyPlayer {
 
     private Context context;
     private Player player;
-    private String songID;
     private EndTrackCallback callback;
+    private State state = State.CREATED;
 
     private ConnectionStateCallback connectionStateCallback;
     private PlayerNotificationCallback playerNotificationCallback;
 
-    public SpotifyPlayer(Context context, String songID, EndTrackCallback callback) {
+    public SpotifyPlayer(Context context, EndTrackCallback callback) {
         this.context = context;
-        this.songID = songID;
         this.callback = callback;
 
         makeListeners();
@@ -52,8 +57,7 @@ public class SpotifyPlayer {
             public void onInitialized(Player player) {
                 player.addConnectionStateCallback(connectionStateCallback);
                 player.addPlayerNotificationCallback(playerNotificationCallback);
-                player.play("spotify:track:" + songID);
-                //player.play("spotify:track:3DujQnASb2AqRJFr52EehS");
+                Timber.i("Initialized.");
             }
 
             @Override
@@ -96,11 +100,29 @@ public class SpotifyPlayer {
             @Override
             public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
 
-                if(eventType == EventType.TRACK_END && playerState.positionInMs > 100){
-                    callback.trackEnded();
+                switch (eventType) {
+
+                    case END_OF_CONTEXT:
+                        pause();
+                        callback.trackEnded();
+                        break;
+
+                    case PAUSE:
+
+                    case LOST_PERMISSION:
+                        pause();
+                        changeState(State.PAUSED);
+
+                        HarmonyApp app = (HarmonyApp) HarmonyActivity.getInstance().getApplication();
+                        if (app.isServiceRunning(ForegroundService.class)) {
+                            Intent startIntent = new Intent(HarmonyActivity.getInstance(), ForegroundService.class);
+                            startIntent.setAction(Constants.ACTION.START_FOREGROUND_ACTION);
+                            HarmonyActivity.getInstance().startService(startIntent);
+                        }
+                        break;
                 }
 
-                Timber.i("Playback Event: " + eventType.name());
+                Timber.i("DEFAULT: %s  %s  %s  %s", eventType.name(), playerState.playing, playerState.positionInMs, playerState.durationInMs);
             }
 
             @Override
@@ -110,11 +132,33 @@ public class SpotifyPlayer {
         };
     }
 
+    public void start(String songID) {
+        changeState(State.PREPARING);
+        player.play("spotify:track:" + songID);
+        changeState(State.PLAYING);
+    }
+
     public void pause() {
         player.pause();
+        changeState(State.PAUSED);
     }
 
     public void resume() {
         player.resume();
+        changeState(State.PLAYING);
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void changeState(State state) {
+        this.state = state;
+        Timber.i(state.toString());
+    }
+
+    public void release() {
+        Spotify.destroyPlayer(this);
+        changeState(State.DESTROYED);
     }
 }

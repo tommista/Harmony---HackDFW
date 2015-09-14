@@ -10,7 +10,7 @@ import android.widget.TextView;
 import timber.log.Timber;
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
-import tommista.com.harmony.TrackPlayer;
+import tommista.com.harmony.tracks.TrackPlayer;
 
 /**
  * Created by tbrown on 2/28/15.

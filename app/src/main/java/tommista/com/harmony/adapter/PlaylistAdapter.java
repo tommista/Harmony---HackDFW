@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
-import tommista.com.harmony.TrackPlayer;
+import tommista.com.harmony.tracks.TrackPlayer;
 import tommista.com.harmony.managers.PlaylistManager;
 import tommista.com.harmony.models.Track;
 
@@ -36,7 +36,7 @@ public class PlaylistAdapter extends ArrayAdapter<Track> {
             convertView = inflater.inflate(R.layout.playlist_track, null);
         }
 
-        View trackItem = (View) convertView.findViewById(R.id.track_item);
+        View trackItem = convertView.findViewById(R.id.track_item);
         TextView songName = (TextView) convertView.findViewById(R.id.track_name);
         TextView artistName = (TextView) convertView.findViewById(R.id.artist_name);
 

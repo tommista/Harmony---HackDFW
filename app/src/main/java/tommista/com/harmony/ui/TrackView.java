@@ -26,12 +26,12 @@ import com.squareup.picasso.Target;
 import timber.log.Timber;
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
-import tommista.com.harmony.TrackPlayer;
+import tommista.com.harmony.tracks.TrackPlayer;
 
 /**
  * Created by tbrown on 2/28/15.
  */
-public class TrackView extends LinearLayout{
+public class TrackView extends LinearLayout {
 
     private final BackgroundTarget target = new BackgroundTarget();
     public static TrackView instance;
@@ -53,7 +53,7 @@ public class TrackView extends LinearLayout{
         this.context = context;
         trackPlayer = TrackPlayer.getInstance();
 
-        LocalBroadcastManager.getInstance(context).registerReceiver(mMessageReceiver,new IntentFilter("nextTrackIntent"));
+        LocalBroadcastManager.getInstance(context).registerReceiver(mMessageReceiver, new IntentFilter("nextTrackIntent"));
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -66,8 +66,8 @@ public class TrackView extends LinearLayout{
                     songTextView.setText(trackPlayer.getCurrentTrack().title);
                     artistTextView.setText(trackPlayer.getCurrentTrack().artist);
 
-                    String image = trackPlayer.getCurrentTrack().isSpotifyTrack ? 
-                            trackPlayer.getCurrentTrack().imageURL : 
+                    String image = trackPlayer.getCurrentTrack().isSpotifyTrack ?
+                            trackPlayer.getCurrentTrack().imageURL :
                             trackPlayer.getCurrentTrack().imageURL.replace("large", "badge");
                     Picasso.with(HarmonyActivity.getInstance()).load(image).into(target);
                     adjustRepeat();
@@ -79,7 +79,7 @@ public class TrackView extends LinearLayout{
     };
 
     @Override
-    protected void onFinishInflate(){
+    protected void onFinishInflate() {
         super.onFinishInflate();
 
         songTextView = (TextView) this.findViewById(R.id.song_name);
@@ -122,7 +122,7 @@ public class TrackView extends LinearLayout{
             }
         });
 
-        imageBackground = (ImageView)findViewById(R.id.image_background);
+        imageBackground = (ImageView) findViewById(R.id.image_background);
 
         songTextView.setText(trackPlayer.getCurrentTrack().title);
         songTextView.setHorizontallyScrolling(true);
@@ -148,7 +148,7 @@ public class TrackView extends LinearLayout{
         String image = trackPlayer.getCurrentTrack().isSpotifyTrack ?
                 trackPlayer.getCurrentTrack().imageURL :
                 trackPlayer.getCurrentTrack().imageURL.replace("large", "badge");
-        
+
         Picasso.with(context).load(image).into(target);
 
         adjustShuffle();
@@ -194,28 +194,28 @@ public class TrackView extends LinearLayout{
         }
     }
 
-    public void adjustShuffle(){
+    public void adjustShuffle() {
 
         HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(trackPlayer.isShuffle){
+                if (trackPlayer.isShuffle) {
                     shuffleButton.setTextColor(ContextCompat.getColor(context, R.color.orange));
-                }else{
+                } else {
                     shuffleButton.setTextColor(ContextCompat.getColor(context, R.color.gray));
                 }
             }
         });
     }
 
-    public void adjustRepeat(){
+    public void adjustRepeat() {
 
         HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(trackPlayer.isRepeat){
+                if (trackPlayer.isRepeat) {
                     repeatButton.setTextColor(ContextCompat.getColor(context, R.color.orange));
-                }else{
+                } else {
                     repeatButton.setTextColor(ContextCompat.getColor(context, R.color.gray));
                 }
             }

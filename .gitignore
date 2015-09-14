@@ -16,7 +16,6 @@ build/
 
 # Gradle files
 .gradle/
-build/
 /*/build/
 
 # Local configuration file (sdk path, etc)
@@ -43,3 +42,6 @@ proguard/
 .idea/dataSources.ids
 .idea/libraries
 # Maybe add .idea/libraries as these might be generated from Gradle
+
+# Assorted
+captures/

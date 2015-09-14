@@ -51,12 +51,6 @@ public class AddSongActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_song_layout);
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
-        } else {
-            // TODO eventually put remote logging into a tree and put here.
-        }
-
         authToken = getAuthToken();
         if(authToken != null) {
             parseIntent();

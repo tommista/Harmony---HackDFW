@@ -1,7 +1,10 @@
 package tommista.com.harmony;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+
+import com.squareup.leakcanary.LeakCanary;
 
 import dagger.ObjectGraph;
 import timber.log.Timber;
@@ -20,13 +23,23 @@ public class HarmonyApp extends Application{
     @Override public void onCreate() {
         super.onCreate();
 
+        LeakCanary.install(this);
+
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
-        } else {
-            // TODO eventually put remote logging into a tree and put here.
         }
 
         buildObjectGraphAndInject();
+    }
+
+    public boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void buildObjectGraphAndInject() {
