@@ -3,3 +3,6 @@ Combines Spotify and Soundcloud into one cohesive playlist playing from both sou
 
 ## Screenshot
 <img src="http://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/222/885/datas/gallery.jpg"/>
+
+
+<img src="http://challengepost-s3-challengepost.netdna-ssl.com/photos/production/software_photos/000/222/883/datas/gallery.jpg"/>
