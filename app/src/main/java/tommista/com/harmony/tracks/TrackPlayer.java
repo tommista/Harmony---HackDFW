@@ -2,6 +2,7 @@ package tommista.com.harmony.tracks;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v4.content.LocalBroadcastManager;
@@ -36,6 +37,9 @@ public class TrackPlayer implements AudioManager.OnAudioFocusChangeListener {
     public boolean isRepeat;
     private Random rand;
     private boolean released = false;
+    private boolean wasPlayingAtTransientLoss = false;
+
+    private Bitmap bitmap;
 
     public static TrackPlayer getInstance() {
         if (instance == null) {
@@ -103,7 +107,7 @@ public class TrackPlayer implements AudioManager.OnAudioFocusChangeListener {
 
         Track track = playlistManager.trackList.get(playingIndex);
 
-        if(checkHasAudioFocus()) {
+        if (checkHasAudioFocus()) {
             if (track.isSpotifyTrack) {
                 spotifyPlayer.start(track.trackId);
             } else {
@@ -123,7 +127,7 @@ public class TrackPlayer implements AudioManager.OnAudioFocusChangeListener {
 
         Track track = playlistManager.trackList.get(playingIndex);
 
-        if(checkHasAudioFocus()) {
+        if (checkHasAudioFocus()) {
             if (isPlaying()) {
                 pauseAll();
             } else {
@@ -207,6 +211,13 @@ public class TrackPlayer implements AudioManager.OnAudioFocusChangeListener {
         Log.d("sender", "Broadcasting message");
         Intent intent = new Intent("nextTrackIntent");
         LocalBroadcastManager.getInstance(HarmonyActivity.getInstance()).sendBroadcast(intent);
+
+        HarmonyApp app = (HarmonyApp) HarmonyActivity.getInstance().getApplication();
+        if (app.isServiceRunning(ForegroundService.class)) {
+            Intent startIntent = new Intent(HarmonyActivity.getInstance(), ForegroundService.class);
+            startIntent.setAction(Constants.ACTION.START_FOREGROUND_ACTION);
+            HarmonyActivity.getInstance().startService(startIntent);
+        }
     }
 
     public void incrementIndex() {
@@ -268,30 +279,59 @@ public class TrackPlayer implements AudioManager.OnAudioFocusChangeListener {
 
     @Override
     public void onAudioFocusChange(int focusChange) {
-        if(spotifyPlayer.getState() != State.DESTROYED) {
-            if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-                pauseAll();
-            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-                Track track = playlistManager.trackList.get(playingIndex);
 
-                if (track.isSpotifyTrack) {
-                    spotifyPlayer.resume();
-                } else {
-                    soundcloudPlayer.play();
+        if (spotifyPlayer.getState() != State.DESTROYED) {
+            switch (focusChange) {
+                case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                    Timber.i("FOCUS LOST TRANSIENT");
+                    if (isPlaying()) {
+                        pauseAll();
+                        wasPlayingAtTransientLoss = isPlaying();
+                    }
+                    break;
+
+                case AudioManager.AUDIOFOCUS_GAIN:
+                    Timber.i("FOCUS GAINED");
+                    Track track = getCurrentTrack();
+
+                    if (wasPlayingAtTransientLoss) {
+                        if (track.isSpotifyTrack) {
+                            spotifyPlayer.resume();
+                        } else {
+                            soundcloudPlayer.play();
+                        }
+                    }
+                    break;
+
+                case AudioManager.AUDIOFOCUS_LOSS:
+                    Timber.i("FOCUS LOST");
+                    pauseAll();
+                    break;
+
+                default:
+                    Timber.i("AUDIO STATE CHANGE NOT HANDLED.");
+                    break;
+            }
+
+            if(wasPlayingAtTransientLoss) {
+                HarmonyApp app = (HarmonyApp) HarmonyActivity.getInstance().getApplication();
+
+                if (app.isServiceRunning(ForegroundService.class)) {
+                    Intent startIntent = new Intent(HarmonyActivity.getInstance(), ForegroundService.class);
+                    startIntent.setAction(Constants.ACTION.START_FOREGROUND_ACTION);
+                    HarmonyActivity.getInstance().startService(startIntent);
                 }
-            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-                pauseAll();
+
+                adjustVCR();
             }
         }
+    }
 
-        HarmonyApp app = (HarmonyApp) HarmonyActivity.getInstance().getApplication();
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
-        if(app.isServiceRunning(ForegroundService.class)) {
-            Intent startIntent = new Intent(HarmonyActivity.getInstance(), ForegroundService.class);
-            startIntent.setAction(Constants.ACTION.START_FOREGROUND_ACTION);
-            HarmonyActivity.getInstance().startService(startIntent);
-        }
-
-        adjustVCR();
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 }

@@ -26,6 +26,7 @@ import com.squareup.picasso.Target;
 import timber.log.Timber;
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
+import tommista.com.harmony.models.Track;
 import tommista.com.harmony.tracks.TrackPlayer;
 
 /**
@@ -47,36 +48,45 @@ public class TrackView extends LinearLayout {
     private TextView repeatButton;
     private TextView playlistbutton;
 
+    private BroadcastReceiver mMessageReceiver;
+
+    private RenderScript rs;
+    private ScriptIntrinsicBlur script;
+
     public TrackView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        instance = this;
         this.context = context;
         trackPlayer = TrackPlayer.getInstance();
+        rs = RenderScript.create(context);
+        script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 
+        instance = this;
+
+        mMessageReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(final Context context, Intent intent) {
+
+                final Track track = TrackPlayer.getInstance().getCurrentTrack();
+
+                HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        songTextView.setText(track.title);
+                        artistTextView.setText(track.artist);
+
+                        String image = track.isSpotifyTrack ?
+                                track.imageURL :
+                                track.imageURL.replace("large", "badge");
+                        Picasso.with(context).load(image).into(target);
+                        adjustRepeat();
+                        adjustShuffle();
+                    }
+                });
+
+            }
+        };
         LocalBroadcastManager.getInstance(context).registerReceiver(mMessageReceiver, new IntentFilter("nextTrackIntent"));
     }
-
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    songTextView.setText(trackPlayer.getCurrentTrack().title);
-                    artistTextView.setText(trackPlayer.getCurrentTrack().artist);
-
-                    String image = trackPlayer.getCurrentTrack().isSpotifyTrack ?
-                            trackPlayer.getCurrentTrack().imageURL :
-                            trackPlayer.getCurrentTrack().imageURL.replace("large", "badge");
-                    Picasso.with(HarmonyActivity.getInstance()).load(image).into(target);
-                    adjustRepeat();
-                    adjustShuffle();
-                }
-            });
-
-        }
-    };
 
     @Override
     protected void onFinishInflate() {
@@ -130,6 +140,7 @@ public class TrackView extends LinearLayout {
         songTextView.setFocusableInTouchMode(true);
         songTextView.setFreezesText(true);
         songTextView.setSingleLine(true);
+        songTextView.setMaxLines(1);
         songTextView.setMarqueeRepeatLimit(-1);
         songTextView.setFocusable(true);
         songTextView.setSelected(true);
@@ -140,6 +151,7 @@ public class TrackView extends LinearLayout {
         artistTextView.setFocusableInTouchMode(true);
         artistTextView.setFreezesText(true);
         artistTextView.setSingleLine(true);
+        artistTextView.setMaxLines(1);
         artistTextView.setMarqueeRepeatLimit(-1);
         artistTextView.setFocusable(true);
         artistTextView.setSelected(true);
@@ -156,6 +168,16 @@ public class TrackView extends LinearLayout {
 
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        imageView.setImageBitmap(null);
+        imageBackground.setImageBitmap(null);
+
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(mMessageReceiver);
+
+        super.onDetachedFromWindow();
+    }
+
     private class BackgroundTarget implements Target {
 
         @Override
@@ -169,16 +191,12 @@ public class TrackView extends LinearLayout {
 
             Bitmap blur = bitmap.copy(bitmap.getConfig(), true);
 
-            final RenderScript rs = RenderScript.create(HarmonyActivity.getInstance());
             final Allocation input = Allocation.createFromBitmap(rs, blur, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
             final Allocation output = Allocation.createTyped(rs, input.getType());
-            final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
             script.setRadius(25.f /* e.g. 3.f */);
             script.setInput(input);
             script.forEach(output);
             output.copyTo(blur);
-
-            HarmonyActivity.getInstance().setBitmap(blur);
 
             imageBackground.setImageBitmap(blur);
         }

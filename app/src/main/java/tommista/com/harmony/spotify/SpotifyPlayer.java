@@ -82,6 +82,7 @@ public class SpotifyPlayer {
             @Override
             public void onLoginFailed(Throwable throwable) {
                 Timber.i(throwable, "Log In Failed");
+                SpotifyAuthenticator.authenticate(HarmonyActivity.getInstance(), HarmonyActivity.SPOTIFY_REQUEST_CODE);
             }
 
             @Override
@@ -100,14 +101,14 @@ public class SpotifyPlayer {
             @Override
             public void onPlaybackEvent(EventType eventType, PlayerState playerState) {
 
+                Timber.i("CALLBACK: %s  %s  %s  %s", eventType.name(), playerState.playing, playerState.positionInMs, playerState.durationInMs);
+
                 switch (eventType) {
 
                     case END_OF_CONTEXT:
                         pause();
                         callback.trackEnded();
                         break;
-
-                    case PAUSE:
 
                     case LOST_PERMISSION:
                         pause();
@@ -121,8 +122,6 @@ public class SpotifyPlayer {
                         }
                         break;
                 }
-
-                Timber.i("DEFAULT: %s  %s  %s  %s", eventType.name(), playerState.playing, playerState.positionInMs, playerState.durationInMs);
             }
 
             @Override

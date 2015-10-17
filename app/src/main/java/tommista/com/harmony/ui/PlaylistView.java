@@ -26,6 +26,7 @@ import com.squareup.picasso.Target;
 import timber.log.Timber;
 import tommista.com.harmony.HarmonyActivity;
 import tommista.com.harmony.R;
+import tommista.com.harmony.models.Track;
 import tommista.com.harmony.tracks.TrackPlayer;
 import tommista.com.harmony.adapter.PlaylistAdapter;
 import tommista.com.harmony.managers.PlaylistManager;
@@ -35,7 +36,9 @@ import tommista.com.harmony.managers.PlaylistManager;
  */
 public class PlaylistView extends FrameLayout {
 
-    private Activity context;
+    private final BroadcastReceiver nextTrackReceiver;
+    private final BroadcastReceiver newTrackReceiver;
+    private HarmonyActivity context;
     private PlaylistAdapter playlistAdapter;
     private VCRView vcr;
     private TextView gotoTrackButton;
@@ -46,12 +49,12 @@ public class PlaylistView extends FrameLayout {
 
     public PlaylistView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = (Activity) context;
+        this.context = (HarmonyActivity) context;
 
         rs = RenderScript.create(context);
         script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 
-        BroadcastReceiver newTrackReceiver = new BroadcastReceiver() {
+        newTrackReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
@@ -62,21 +65,23 @@ public class PlaylistView extends FrameLayout {
                     }
                 });
 
-                HarmonyActivity.getInstance().setContentView(R.layout.playlist_view);
+                PlaylistView.this.context.setContentView(R.layout.playlist_view);
 
                 Timber.i("newTrackReceiver");
 
             }
         };
 
-        BroadcastReceiver nextTrackReceiver = new BroadcastReceiver() {
+        nextTrackReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(final Context context, Intent intent) {
 
-                HarmonyActivity.getInstance().runOnUiThread(new Runnable() {
+                final Track track = TrackPlayer.getInstance().getCurrentTrack();
+
+                PlaylistView.this.context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        String currentTrackUri = TrackPlayer.getInstance().getCurrentTrack().imageURL;
+                        String currentTrackUri = track.imageURL;
 
                         Picasso.with(context).load(currentTrackUri).into(target);
                     }
@@ -105,7 +110,7 @@ public class PlaylistView extends FrameLayout {
             script.forEach(output);
             output.copyTo(blur);
 
-            HarmonyActivity.getInstance().setBitmap(blur);
+            TrackPlayer.getInstance().setBitmap(blur);
 
             imageView.setImageBitmap(blur);
         }
@@ -134,8 +139,8 @@ public class PlaylistView extends FrameLayout {
         gotoTrackButton.setTypeface(font);
         gotoTrackButton.setText("\ue60d");
 
-        if (HarmonyActivity.getInstance().getBitmap() != null) {
-            imageView.setImageBitmap(HarmonyActivity.getInstance().getBitmap());
+        if (TrackPlayer.getInstance().getBitmap() != null) {
+            imageView.setImageBitmap(TrackPlayer.getInstance().getBitmap());
         }
 
         gotoTrackButton.setOnClickListener(new OnClickListener() {
@@ -150,5 +155,17 @@ public class PlaylistView extends FrameLayout {
 
         listView.setAdapter(playlistAdapter);
 
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+
+        Timber.i("Detached");
+        imageView.setImageBitmap(null);
+
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(newTrackReceiver);
+        LocalBroadcastManager.getInstance(context).unregisterReceiver(nextTrackReceiver);
+
+        super.onDetachedFromWindow();
     }
 }

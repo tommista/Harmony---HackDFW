@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 
 import timber.log.Timber;
 import tommista.com.harmony.managers.PlaylistManager;
@@ -16,7 +19,7 @@ import tommista.com.harmony.tracks.TrackPlayer;
 
 public class HarmonyActivity extends Activity {
 
-    private static final int SPOTIFY_REQUEST_CODE = 1337;
+    public static final int SPOTIFY_REQUEST_CODE = 1337;
 
     private static HarmonyActivity instance;
 
@@ -35,6 +38,16 @@ public class HarmonyActivity extends Activity {
 
         SpotifyAuthenticator.authenticate(this, SPOTIFY_REQUEST_CODE);
 
+//        String prefsName = getResources().getString(R.string.shared_prefs_name);
+//        String spotifyTokenKey = getResources().getString(R.string.spotify_token_key);
+//
+//        SharedPreferences preferences = getSharedPreferences(prefsName, MODE_PRIVATE);
+//
+//        String token = preferences.getString(spotifyTokenKey, null);
+//        if(token == null) {
+//            SpotifyAuthenticator.authenticate(this, SPOTIFY_REQUEST_CODE);
+//        }
+
         PlaylistManager.getInstance().loadList();
     }
 
@@ -42,12 +55,24 @@ public class HarmonyActivity extends Activity {
         return instance;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
+    @Override
+    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event) {
 
-    public Bitmap getBitmap() {
-        return bitmap;
+        AudioManager manager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                manager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                        AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                manager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                        AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+                return true;
+
+            default:
+                return super.onKeyDown(keyCode, event);
+        }
     }
 
     public void startService() {
@@ -70,6 +95,7 @@ public class HarmonyActivity extends Activity {
         this.layoutId = layoutResID;
         super.setContentView(layoutResID);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == SPOTIFY_REQUEST_CODE) {

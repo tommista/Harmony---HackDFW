@@ -92,6 +92,7 @@ public class ForegroundService extends Service {
                                     true,
                                     bitmap));
                 } else {
+                    stopForeground(false);
                     NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
                     manager.notify(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                             createNotification(
@@ -114,6 +115,7 @@ public class ForegroundService extends Service {
                                     true,
                                     bitmap));
                 } else {
+                    stopForeground(false);
                     NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
                     manager.notify(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                             createNotification(
@@ -156,6 +158,7 @@ public class ForegroundService extends Service {
                                     player.isPlaying(),
                                     bitmap));
                 } else {
+                    stopForeground(false);
                     NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
                     manager.notify(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                             createNotification(
